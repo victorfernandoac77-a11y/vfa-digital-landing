@@ -24,3 +24,9 @@ expertMode = true
 [postMerge]
 path = "scripts/post-merge.sh"
 timeoutMs = 20000
+
+[userenv]
+
+[userenv.shared]
+ADMIN_PASSWORD = "VFA@1990"
+GEMINI_API_KEY = "AIzaSyBu2VJ8eRzN2Y6RSyTepu7CWDnMWPZSDtY"
