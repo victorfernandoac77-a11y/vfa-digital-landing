@@ -59,6 +59,7 @@ router.post("/chat", async (req: Request, res: Response) => {
   const apiKey = process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
+    console.error("[VFA Chat] GEMINI_API_KEY no está configurada en el entorno.");
     res.status(500).json({ error: "Servicio de IA no configurado." });
     return;
   }
@@ -67,32 +68,52 @@ router.post("/chat", async (req: Request, res: Response) => {
     const { GoogleGenerativeAI } = await import("@google/generative-ai");
     const genAI = new GoogleGenerativeAI(apiKey);
 
-    const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
-      systemInstruction: `Sos VFA Assistant, el asistente virtual de VFADigital, una agencia de desarrollo web con sede en Argentina.
-Tu objetivo es asesorar a los potenciales clientes sobre los servicios de la agencia y guiarlos hacia una contratación.
-Los servicios son:
-- Sitio Estático: $60.000 - $120.000 ARS
-- Sitio Dinámico: $90.000 - $160.000 ARS  
-- Smart IA 3D: $180.000 - $250.000 ARS
+    const systemInstruction = `Sos el asistente virtual de Fer en VFA Digital. Él te entrenó para ayudar rápido a sus clientes mientras se desocupa.
+Tu primer mensaje siempre debe ser exactamente: "¡Hola! Soy el asistente virtual de Fer en VFA Digital. Él me entrenó para ayudarte rápido mientras se desocupa. ¿De qué trata tu emprendimiento?"
 
-Siempre respondé en el idioma del cliente. Sé amable, profesional y conciso.
-El cliente se llama ${name}${phone ? ` y su teléfono es ${phone}` : ""}.
-Al finalizar la conversación, mencioná que se puede continuar por WhatsApp al +5491166813990.`,
-    });
+Reglas de conversación:
+- Respondé siempre en el idioma del cliente.
+- Sé cálido, natural, directo y útil. Nunca respondas como un robot.
+- El cliente se llama ${name}${phone ? ` y su teléfono es ${phone}` : ""}.
 
-    const chatHistory =
-      history?.map((h: { role: string; content: string }) => ({
+Servicios y precios de VFA Digital (en pesos argentinos):
+- ESTÁTICO: $60.000 - $120.000 ARS. Tiempo de desarrollo: 1 semana. $60k cubre tu vidriera digital rápida. Escala a $120k si requieres múltiples secciones y animaciones personalizadas.
+- DINÁMICO: $90.000 - $160.000 ARS. Tiempo de desarrollo: 2 semanas. $90k te da control de tus datos base. Escala a $160k si necesitas gestionar catálogos o promociones en tiempo real.
+- SMART IA 3D: $180.000 - $250.000 ARS. Tiempo de desarrollo: 3 semanas. $180k incluye tu Asistente IA base y fondo 3D. Escala a $250k al entrenar a tu IA como cerrador de ventas experto con 3D a medida.
+
+Oferta de valor gratuita (ofrecela proactivamente si el cliente menciona que ya tiene una web):
+"Si ya tenés una web pero sentís que no te trae clientes, dejame el link y Fer te hace una mini-auditoría visual sin cargo."
+
+Sobre la ubicación: VFA Digital opera digitalmente desde Argentina y trabaja con clientes de toda Latinoamérica.
+
+Si el cliente pregunta dónde contactar directamente a Fer o quiere cerrar el servicio, ofrecele DOS opciones:
+1. WhatsApp: https://wa.me/5491166813990 (mensaje sugerido: "Hola Fer, estuve hablando con tu asistente IA y quiero saber más sobre [servicio mencionado]")
+2. Facebook Messenger: www.facebook.com/vfadigital (puedes copiar y pegar el mensaje anterior)
+
+Nunca inventes precios, servicios ni plazos que no estén en esta lista. Sé honesto si no sabés algo.`;
+
+    const safeHistory = Array.isArray(history) ? history : [];
+
+    const chatHistory = safeHistory
+      .filter((h: { role: string; content: string }) =>
+        h && typeof h.role === "string" && typeof h.content === "string" && h.content.trim() !== ""
+      )
+      .map((h: { role: string; content: string }) => ({
         role: h.role === "user" ? "user" : "model",
         parts: [{ text: h.content }],
-      })) || [];
+      }));
+
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-flash",
+      systemInstruction,
+    });
 
     const chat = model.startChat({ history: chatHistory });
     const result = await chat.sendMessage(message);
     const reply = result.response.text();
 
     const fullHistory = [
-      ...(history || []),
+      ...safeHistory,
       { role: "user", content: message },
       { role: "model", content: reply },
     ];
@@ -104,11 +125,13 @@ Al finalizar la conversación, mencioná que se puede continuar por WhatsApp al 
       .join("\n");
 
     res.json({ reply, summary: summaryText });
-  } catch (err) {
-    console.error("[VFA Chat Error]", err);
+  } catch (err: unknown) {
+    const error = err as Error;
+    console.error("[VFA Chat Error] Tipo:", error?.constructor?.name);
+    console.error("[VFA Chat Error] Mensaje:", error?.message);
+    console.error("[VFA Chat Error] Stack:", error?.stack);
     res.status(500).json({
-      error:
-        "Error al procesar tu consulta. Por favor intentá de nuevo en unos instantes.",
+      error: "No pude procesar tu consulta en este momento. Intentá de nuevo en unos instantes.",
     });
   }
 });
