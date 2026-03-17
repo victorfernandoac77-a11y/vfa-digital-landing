@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--border));
+  --color-ring: hsl(var(--primary));
+  
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --font-display: 'Rajdhani', sans-serif;
+  --font-body: 'Share Tech Mono', monospace;
+}
+
+:root {
+  /* VFADigital Exact Palette */
+  --background: 0 0% 0%;       /* #000000 Pure Black */
+  --foreground: 0 0% 100%;     /* #FFFFFF White */
+  
+  --primary: 75 100% 50%;      /* #CCFF00 Neon Green */
+  --primary-foreground: 0 0% 0%; /* Black text on green */
+  
+  --card: 0 0% 10%;            /* #1A1A1A Carbon Gray */
+  --card-foreground: 0 0% 100%;
+  
+  --border: 0 0% 20%;          /* Dark gray borders */
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 60%;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground font-body antialiased overflow-x-hidden selection:bg-primary selection:text-black;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-wide;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-[#1A1A1A]/60 backdrop-blur-xl border border-white/5 shadow-[0_4px_30px_rgba(0,0,0,0.5)];
+  }
+  
+  .neon-border {
+    @apply border border-primary/50 shadow-[0_0_15px_rgba(204,255,0,0.15)] hover:shadow-[0_0_25px_rgba(204,255,0,0.4)] hover:border-primary transition-all duration-300;
+  }
+  
+  .neon-text {
+    @apply text-primary drop-shadow-[0_0_8px_rgba(204,255,0,0.6)];
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-b from-white to-white/50;
+  }
+}
+
+/* Custom animations */
+@keyframes cyber-scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.animate-scan {
+  animation: cyber-scan 3s linear infinite;
+}
+
+@keyframes matrix-fade {
+  0% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+/* Hide scrollbar but allow scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

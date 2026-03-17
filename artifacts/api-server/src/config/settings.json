@@ -1,0 +1,57 @@
+{
+  "contact": {
+    "whatsapp": "+5491166813990",
+    "whatsappLink": "https://wa.me/5491166813990",
+    "facebook": "https://www.facebook.com/vfadigital",
+    "instagram": "[URL_A_MODIFICAR]",
+    "github": "https://github.com/victorfernandoac77-a11y"
+  },
+  "services": {
+    "static": {
+      "priceMin": 60000,
+      "priceMax": 120000,
+      "currency": "ARS"
+    },
+    "dynamic": {
+      "priceMin": 90000,
+      "priceMax": 160000,
+      "currency": "ARS"
+    },
+    "smart": {
+      "priceMin": 180000,
+      "priceMax": 250000,
+      "currency": "ARS"
+    }
+  },
+  "portfolio": [
+    {
+      "id": "barbara-masajes",
+      "name": "Bárbara Masajes",
+      "description": "Landing profesional para conversión y reserva de turnos de bienestar.",
+      "tags": ["Landing Page", "Reservas", "Bienestar"],
+      "type": "static"
+    },
+    {
+      "id": "alto-bajon",
+      "name": "Alto Bajón",
+      "description": "Sitio web dinámico y visualmente atractivo para local gastronómico.",
+      "tags": ["Gastronomía", "Dinámico", "Menú Online"],
+      "type": "dynamic"
+    },
+    {
+      "id": "tiendita-mariana",
+      "name": "La Tiendita de Mariana",
+      "description": "E-commerce minimalista Mobile-First.",
+      "tags": ["E-commerce", "Mobile-First", "Ventas"],
+      "type": "smart"
+    }
+  ],
+  "stats": {
+    "projects": 47,
+    "clients": 35,
+    "experience": 5
+  },
+  "authority": {
+    "diplomaLink": "[LINK_DRIVE_DIPLOMA]"
+  }
+}

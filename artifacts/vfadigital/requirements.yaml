@@ -1,0 +1,24 @@
+packages:
+  "framer-motion": "For 3D tilt effects, page transitions, scroll progress, and smooth layout changes."
+  "react-type-animation": "For the hero section typing effect cycling through phrases."
+  "clsx": "Utility for constructing className strings conditionally."
+  "tailwind-merge": "Utility function to efficiently merge Tailwind CSS classes in JS without style conflicts."
+
+images:
+  - path: "artifacts/vfadigital/public/images/cyber-bg.png"
+    description: "Abstract 3D neon green circuit board pattern on pure black background, cyber futuristic style, subtle depth of field"
+    aspect_ratio: "16:9"
+  - path: "artifacts/vfadigital/public/images/port-1.png"
+    description: "Modern wellness spa landing page mockup, minimalist green and black color scheme, clean UI"
+    aspect_ratio: "16:9"
+  - path: "artifacts/vfadigital/public/images/port-2.png"
+    description: "Vibrant dynamic restaurant website mockup, food imagery, high contrast dark theme UI"
+    aspect_ratio: "16:9"
+  - path: "artifacts/vfadigital/public/images/port-3.png"
+    description: "Minimalist mobile-first ecommerce interface mockup, clean typography, dark theme"
+    aspect_ratio: "16:9"
+
+notes:
+  - React Query hooks are imported from @workspace/api-client-react.
+  - The design enforces a strict pure black, carbon gray, and neon green palette with glassmorphism.
+  - Admin login is triggered via a 5-second long press on the footer logo.

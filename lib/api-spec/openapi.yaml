@@ -1,22 +1,26 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
-  version: 0.1.0
-  description: API specification
+  version: 1.0.0
+  description: VFADigital Engine - Core API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: ai
+    description: AI Assistant operations
+  - name: admin
+    description: Admin operations
+  - name: locales
+    description: i18n operations
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +28,93 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /chat:
+    post:
+      operationId: sendChatMessage
+      tags: [ai]
+      summary: Send a message to VFA Assistant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatRequest"
+      responses:
+        "200":
+          description: AI response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatResponse"
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /admin/verify:
+    post:
+      operationId: verifyAdmin
+      tags: [admin]
+      summary: Verify admin password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminVerifyRequest"
+      responses:
+        "200":
+          description: Admin data returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminVerifyResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /settings:
+    get:
+      operationId: getSettings
+      tags: [admin]
+      summary: Get public settings
+      responses:
+        "200":
+          description: Public settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PublicSettings"
+  /locales/{lang}:
+    get:
+      operationId: getLocale
+      tags: [locales]
+      summary: Get locale strings
+      parameters:
+        - name: lang
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [es, en, pt, it, fr]
+      responses:
+        "200":
+          description: Locale strings
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+        "404":
+          description: Locale not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +124,133 @@ components:
           type: string
       required:
         - status
-
+    ChatRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        phone:
+          type: string
+        message:
+          type: string
+        history:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChatMessage"
+      required:
+        - name
+        - message
+    ChatMessage:
+      type: object
+      properties:
+        role:
+          type: string
+          enum: [user, model]
+        content:
+          type: string
+      required:
+        - role
+        - content
+    ChatResponse:
+      type: object
+      properties:
+        reply:
+          type: string
+        summary:
+          type: string
+      required:
+        - reply
+    AdminVerifyRequest:
+      type: object
+      properties:
+        token:
+          type: string
+      required:
+        - token
+    AdminVerifyResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/AdminData"
+      required:
+        - success
+        - data
+    AdminData:
+      type: object
+      properties:
+        settings:
+          type: object
+          additionalProperties: true
+      required:
+        - settings
+    PublicSettings:
+      type: object
+      properties:
+        contact:
+          $ref: "#/components/schemas/ContactSettings"
+        portfolio:
+          type: array
+          items:
+            $ref: "#/components/schemas/PortfolioItem"
+        stats:
+          $ref: "#/components/schemas/StatsSettings"
+      required:
+        - contact
+        - portfolio
+        - stats
+    ContactSettings:
+      type: object
+      properties:
+        whatsapp:
+          type: string
+        facebook:
+          type: string
+        instagram:
+          type: string
+        github:
+          type: string
+      required:
+        - whatsapp
+        - facebook
+        - instagram
+        - github
+    PortfolioItem:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+      required:
+        - id
+        - name
+        - description
+        - tags
+    StatsSettings:
+      type: object
+      properties:
+        projects:
+          type: integer
+        clients:
+          type: integer
+        experience:
+          type: integer
+      required:
+        - projects
+        - clients
+        - experience
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
