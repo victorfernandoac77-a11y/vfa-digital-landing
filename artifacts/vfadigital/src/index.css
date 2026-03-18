@@ -98,8 +98,8 @@ header {
 html,
 body,
 #root {
-  background: transparent !important;
-  background-color: transparent !important;
+  background-color: #000 !important;
+  background: #000 !important;
 }
 
 @layer base {
