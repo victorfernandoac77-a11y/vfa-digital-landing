@@ -8,13 +8,13 @@
   },
   "services": {
     "static": {
-      "priceMin": 60000,
+      "priceMin": 80000,
       "priceMax": 120000,
       "currency": "ARS"
     },
     "dynamic": {
-      "priceMin": 90000,
-      "priceMax": 160000,
+      "priceMin": 120000,
+      "priceMax": 180000,
       "currency": "ARS"
     },
     "smart": {
@@ -28,21 +28,33 @@
       "id": "barbara-masajes",
       "name": "Bárbara Masajes",
       "description": "Landing profesional para conversión y reserva de turnos de bienestar.",
-      "tags": ["Landing Page", "Reservas", "Bienestar"],
+      "tags": [
+        "Landing Page",
+        "Reservas",
+        "Bienestar"
+      ],
       "type": "static"
     },
     {
       "id": "alto-bajon",
       "name": "Alto Bajón",
       "description": "Sitio web dinámico y visualmente atractivo para local gastronómico.",
-      "tags": ["Gastronomía", "Dinámico", "Menú Online"],
+      "tags": [
+        "Gastronomía",
+        "Dinámico",
+        "Menú Online"
+      ],
       "type": "dynamic"
     },
     {
       "id": "tiendita-mariana",
       "name": "La Tiendita de Mariana",
       "description": "E-commerce minimalista Mobile-First.",
-      "tags": ["E-commerce", "Mobile-First", "Ventas"],
+      "tags": [
+        "E-commerce",
+        "Mobile-First",
+        "Ventas"
+      ],
       "type": "smart"
     }
   ],
@@ -54,5 +66,5 @@
   "authority": {
     "diplomaLink": ""
   },
-  "promo": ""
+  "promo": "Promo por apertura! 🔥"
 }

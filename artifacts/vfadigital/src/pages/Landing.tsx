@@ -37,7 +37,7 @@ export function Landing() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-black">
+    <div className="relative min-h-screen" style={{ background: "transparent" }}>
       {/* Video de fondo cyber absoluto */}
       <video
         id="vfa-bg-video"

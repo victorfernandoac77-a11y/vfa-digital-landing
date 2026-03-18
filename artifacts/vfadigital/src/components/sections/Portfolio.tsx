@@ -36,7 +36,7 @@ export function Portfolio() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section id="portfolio" className="py-24 bg-black/40 overflow-hidden">
+    <section id="portfolio" className="py-24 overflow-hidden" style={{ background: "rgba(0,0,0,0.2)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-10">
         <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-4">
           <span className="text-primary">/</span> {t("portfolio.title")}

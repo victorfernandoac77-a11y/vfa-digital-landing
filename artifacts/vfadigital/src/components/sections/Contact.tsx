@@ -14,7 +14,7 @@ export function Contact() {
   const { data: settings } = useGetSettings();
 
   return (
-    <section id="contact" className="py-24 border-t border-white/5 bg-[#0A0A0A]">
+    <section id="contact" className="py-24 border-t border-white/10" style={{ background: "rgba(0,0,0,0.25)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center flex flex-col items-center">
         <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-4">
           Establecer <span className="text-primary">Conexión</span>

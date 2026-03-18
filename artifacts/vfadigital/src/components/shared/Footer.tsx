@@ -127,7 +127,7 @@ export function Footer() {
   );
 
   return (
-    <footer className="bg-[#0A0A0A] border-t border-white/5 py-12 relative overflow-hidden">
+    <footer className="border-t border-white/10 py-12 relative overflow-hidden" style={{ background: "rgba(0,0,0,0.35)" }}>
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center gap-6 text-center">
