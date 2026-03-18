@@ -48,7 +48,7 @@ iframe[src*="replit.com/badge"] {
 }
 
 /* ===== VIDEO DE FONDO ABSOLUTO ===== */
-#vfa-bg-video-ORIGINAL {
+#vfa-bg-video {
   position: fixed;
   top: 0;
   left: 0;
@@ -98,8 +98,8 @@ header {
 html,
 body,
 #root {
-  background-color: #000 !important;
-  background: #000 !important;
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 @layer base {
@@ -154,18 +154,4 @@ body,
 .portfolio-scroll::-webkit-scrollbar { display: none; }
 .portfolio-card {
   scroll-snap-align: center;
-}
-
-/* Fallback para mobile donde el autoplay está bloqueado */
-html, body, #root {
-  background-color: #000 !important;
-}
-#vfa-bg-video {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  z-index: -100;
-  object-fit: cover;
-  pointer-events: none;
-  opacity: 0.72;
 }
