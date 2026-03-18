@@ -99,7 +99,7 @@ html,
 body,
 #root {
   background-color: #000 !important;
-  background: none !important;
+  background: #000 !important;
 }
 
 @layer base {
