@@ -106,7 +106,6 @@ body,
   body {
     /* NO bg-background: dejamos que el video sea el fondo real */
     @apply text-foreground font-body antialiased overflow-x-hidden selection:bg-primary selection:text-black;
-    background: transparent !important;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-display tracking-wide;
