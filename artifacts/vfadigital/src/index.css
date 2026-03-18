@@ -23,26 +23,80 @@
 }
 
 :root {
-  /* VFADigital Exact Palette */
-  --background: 0 0% 0%;       /* #000000 Pure Black */
-  --foreground: 0 0% 100%;     /* #FFFFFF White */
-  
-  --primary: 75 100% 50%;      /* #CCFF00 Neon Green */
-  --primary-foreground: 0 0% 0%; /* Black text on green */
-  
-  --card: 0 0% 10%;            /* #1A1A1A Carbon Gray */
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --primary: 75 100% 50%;
+  --primary-foreground: 0 0% 0%;
+  --card: 0 0% 10%;
   --card-foreground: 0 0% 100%;
-  
-  --border: 0 0% 20%;          /* Dark gray borders */
+  --border: 0 0% 20%;
   --muted: 0 0% 15%;
   --muted-foreground: 0 0% 60%;
+}
+
+/* ===== OCULTAR MARCA DE AGUA REPLIT ===== */
+#replit-badge,
+.replit-badge,
+div[class*="replit-badge"],
+[data-replit-badge],
+iframe[src*="replit.com/badge"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* ===== VIDEO DE FONDO ABSOLUTO ===== */
+#vfa-bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -100;
+  object-fit: cover;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+/* ===== UI GLASSMORPHISM OVERRIDE ===== */
+.glass-panel,
+#chat-widget-container {
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  background: rgba(0, 0, 0, 0.55) !important;
+}
+
+header {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* ===== CYBER RIPPLE (toque/click) ===== */
+.cyber-ripple {
+  position: fixed;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 255, 0, 0.7);
+  box-shadow: 0 0 18px rgba(0, 255, 0, 0.9), 0 0 6px rgba(0, 255, 0, 0.6);
+  pointer-events: none;
+  z-index: 99999;
+  width: 20px;
+  height: 20px;
+  margin-left: -10px;
+  margin-top: -10px;
+  transform: scale(0);
+  animation: ripple-effect 0.75s ease-out forwards;
+}
+
+@keyframes ripple-effect {
+  0%   { transform: scale(0); opacity: 1; }
+  100% { transform: scale(6); opacity: 0; }
 }
 
 @layer base {
   body {
     @apply bg-background text-foreground font-body antialiased overflow-x-hidden selection:bg-primary selection:text-black;
   }
-  
   h1, h2, h3, h4, h5, h6 {
     @apply font-display tracking-wide;
   }
@@ -52,41 +106,41 @@
   .glass-panel {
     @apply bg-[#1A1A1A]/60 backdrop-blur-xl border border-white/5 shadow-[0_4px_30px_rgba(0,0,0,0.5)];
   }
-  
   .neon-border {
     @apply border border-primary/50 shadow-[0_0_15px_rgba(204,255,0,0.15)] hover:shadow-[0_0_25px_rgba(204,255,0,0.4)] hover:border-primary transition-all duration-300;
   }
-  
   .neon-text {
     @apply text-primary drop-shadow-[0_0_8px_rgba(204,255,0,0.6)];
   }
-
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-b from-white to-white/50;
   }
 }
 
-/* Custom animations */
 @keyframes cyber-scan {
-  0% { transform: translateY(-100%); }
+  0%   { transform: translateY(-100%); }
   100% { transform: translateY(100vh); }
 }
-
 .animate-scan {
   animation: cyber-scan 3s linear infinite;
 }
 
 @keyframes matrix-fade {
-  0% { opacity: 1; }
-  90% { opacity: 1; }
+  0%   { opacity: 1; }
+  90%  { opacity: 1; }
   100% { opacity: 0; visibility: hidden; }
 }
 
 /* Hide scrollbar but allow scrolling */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Portfolio horizontal scroll */
+.portfolio-scroll {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 }
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+.portfolio-scroll::-webkit-scrollbar { display: none; }
+.portfolio-card {
+  scroll-snap-align: center;
 }
