@@ -12,5 +12,12 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      setTimeout(() => {
+        const badge = document.getElementById('__replit_badge');
+        if (badge) badge.remove();
+        document.querySelectorAll('[id*="replit"], [class*="replit-badge"]').forEach(el => el.remove());
+      }, 500);
+    </script>
   </body>
 </html>
