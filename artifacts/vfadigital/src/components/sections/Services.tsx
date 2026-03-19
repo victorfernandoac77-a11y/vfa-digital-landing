@@ -72,7 +72,7 @@ export function Services() {
               exit={{ opacity: 0, y: -10 }}
               className="mb-8 text-center"
             >
-              <<button
+              <button
   onClick={() => document.getElementById("service-dynamic")?.scrollIntoView({ behavior: "smooth" })}
   className="inline-block font-display font-bold text-black bg-primary px-6 py-2 rounded-full text-base tracking-wider shadow-[0_0_20px_rgba(204,255,0,0.5)] animate-pulse"
 >
