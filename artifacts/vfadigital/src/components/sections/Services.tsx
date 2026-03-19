@@ -58,7 +58,7 @@ export function Services() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-6">
           <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-4">
-            <span className="text-primary">/</span> {t("services.title")}
+            <span className="text-primary">/</span> Nuestros Servicios
           </h2>
           <div className="w-24 h-1 bg-primary/30 mx-auto rounded-full" />
         </div>
