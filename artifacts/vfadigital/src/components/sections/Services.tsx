@@ -87,11 +87,9 @@ export function Services() {
             const prices = settings?.services?.[svc.settingsKey];
             const priceStr = prices
               ? `${fmt(prices.priceMin)} - ${fmt(prices.priceMax)}`
-              : svc.settingsKey === "static"
-              ? "$60.000 - $120.000"
               : svc.settingsKey === "dynamic"
-              ? "$90.000 - $160.000"
-              : "$180.000 - $250.000";
+? "$90.000 - $160.000"
+: "$180.000 - $250.000";
             return (
   <div id={svc.id === "dynamic" ? "service-dynamic" : undefined} key={svc.id}>
     <ServiceCard
