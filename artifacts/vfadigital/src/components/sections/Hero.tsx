@@ -22,7 +22,9 @@ export function Hero() {
     window.dispatchEvent(new CustomEvent("vfa:open-chat"));
     setTimeout(() => {
       document.getElementById("vfa-chat-anchor")?.scrollIntoView({ behavior: "smooth", block: "end" });
-    }, 100);
+    }, 100);const openChat = () => {
+  document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
+};
   };
 
   return (
