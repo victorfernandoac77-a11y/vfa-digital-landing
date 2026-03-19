@@ -46,6 +46,9 @@ export function Landing() {
   muted
   playsInline
   preload="auto"
+x-webkit-airplay="allow"
+x-webkit-playsinline="true"
+webkit-playsinline="true"
   aria-hidden="true"
   style={{
     position: "fixed",
