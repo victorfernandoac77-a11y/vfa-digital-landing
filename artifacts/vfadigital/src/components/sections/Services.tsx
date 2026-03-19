@@ -72,9 +72,12 @@ export function Services() {
               exit={{ opacity: 0, y: -10 }}
               className="mb-8 text-center"
             >
-              <span className="inline-block font-display font-bold text-black bg-primary px-6 py-2 rounded-full text-base tracking-wider shadow-[0_0_20px_rgba(204,255,0,0.5)] animate-pulse">
-                {promo}
-              </span>
+              <<button
+  onClick={() => document.getElementById("service-dynamic")?.scrollIntoView({ behavior: "smooth" })}
+  className="inline-block font-display font-bold text-black bg-primary px-6 py-2 rounded-full text-base tracking-wider shadow-[0_0_20px_rgba(204,255,0,0.5)] animate-pulse"
+>
+  {promo}
+</button>
             </motion.div>
           )}
         </AnimatePresence>
@@ -88,14 +91,15 @@ export function Services() {
               ? "$60.000 - $120.000"
               : svc.settingsKey === "dynamic"
               ? "$90.000 - $160.000"
-              : "$180.000 - $250.000";
+               "$180.000 - $250.000";
             return (
-              <ServiceCard
-                key={svc.id}
-                {...svc}
-                price={priceStr}
-                t={t}
-              />
+  <div id={svc.id === "dynamic" ? "service-dynamic" : undefined} key={svc.id}>
+    <ServiceCard
+      {...svc}
+      price={priceStr}
+      t={t}
+    />
+  </div>
             );
           })}
         </div>
