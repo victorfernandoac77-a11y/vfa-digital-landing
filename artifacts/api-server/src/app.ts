@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 const app: Express = express();
 
-const frontendDist = path.join(__dirname, "../../vfadigital/dist");
+const frontendDist = path.join(__dirname, "../../vfadigital/dist/public");
 app.use(express.static(frontendDist));
 
 app.use(cors());
