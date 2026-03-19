@@ -63,7 +63,6 @@ export function Services() {
           <div className="w-24 h-1 bg-primary/30 mx-auto rounded-full" />
         </div>
 
-        {/* Banner Promocional — solo si hay contenido */}
         <AnimatePresence>
           {promo && (
             <motion.div
@@ -73,11 +72,11 @@ export function Services() {
               className="mb-8 text-center"
             >
               <button
-  onClick={() => document.getElementById("service-dynamic")?.scrollIntoView({ behavior: "smooth" })}
-  className="inline-block font-display font-bold text-black bg-primary px-6 py-2 rounded-full text-base tracking-wider shadow-[0_0_20px_rgba(204,255,0,0.5)] animate-pulse"
->
-  {promo}
-</button>
+                onClick={() => document.getElementById("service-dynamic")?.scrollIntoView({ behavior: "smooth" })}
+                className="inline-block font-display font-bold text-black bg-primary px-6 py-2 rounded-full text-base tracking-wider shadow-[0_0_20px_rgba(204,255,0,0.5)] animate-pulse"
+              >
+                {promo}
+              </button>
             </motion.div>
           )}
         </AnimatePresence>
@@ -87,17 +86,19 @@ export function Services() {
             const prices = settings?.services?.[svc.settingsKey];
             const priceStr = prices
               ? `${fmt(prices.priceMin)} - ${fmt(prices.priceMax)}`
+              : svc.settingsKey === "static"
+              ? "$60.000 - $120.000"
               : svc.settingsKey === "dynamic"
-? "$90.000 - $160.000"
-: "$180.000 - $250.000";
+              ? "$90.000 - $160.000"
+              : "$180.000 - $250.000";
             return (
-  <div id={svc.id === "dynamic" ? "service-dynamic" : undefined} key={svc.id}>
-    <ServiceCard
-      {...svc}
-      price={priceStr}
-      t={t}
-    />
-  </div>
+              <div id={svc.id === "dynamic" ? "service-dynamic" : undefined} key={svc.id}>
+                <ServiceCard
+                  {...svc}
+                  price={priceStr}
+                  t={t}
+                />
+              </div>
             );
           })}
         </div>
@@ -183,4 +184,4 @@ function ServiceCard({
       </Button>
     </motion.div>
   );
-}
+      }
