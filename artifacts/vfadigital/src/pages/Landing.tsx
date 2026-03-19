@@ -40,16 +40,26 @@ export function Landing() {
     <div className="relative min-h-screen" style={{ background: "transparent" }}>
       {/* Video de fondo cyber absoluto */}
       <video
-        id="vfa-bg-video"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        aria-hidden="true"
-      >
-        <source src="/bg.mp4" type="video/mp4" />
-      </video>
+  id="vfa-bg-video"
+  autoPlay
+  loop
+  muted
+  playsInline
+  preload="auto"
+  aria-hidden="true"
+  style={{
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    zIndex: -1,
+    opacity: 0.45,
+  }}
+>
+  <source src="/bg.mp4" type="video/mp4" />
+</video>
 
       {/* Red de circuitos neón sobre el video */}
       <CyberCanvas />
