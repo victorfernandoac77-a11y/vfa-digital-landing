@@ -1,35 +1,21 @@
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
 import { motion } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
 import { useTranslation } from "@/hooks/use-translations";
 import { useGetSettings } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
 
 export function Hero() {
   const { t } = useTranslation();
   const { data: settings } = useGetSettings();
-  const [btnTextIdx, setBtnTextIdx] = useState(0);
-  const btnTexts = [t("hero.cta1"), t("hero.cta2"), t("hero.cta3")];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setBtnTextIdx((prev) => (prev + 1) % btnTexts.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [btnTexts.length]);
 
   const openChat = () => {
-    window.dispatchEvent(new CustomEvent("vfa:open-chat"));
-    setTimeout(() => {
-      document.getElementById("vfa-chat-anchor")?.scrollIntoView({ behavior: "smooth", block: "end" });
-    }, 100);const openChat = () => {
-  document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
-};
+    document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-      {/* Fondo 3D estático — el CyberCanvas cubre toda la página */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(204,255,0,0.04)_0%,black_70%)]" />
       </div>
@@ -74,21 +60,10 @@ export function Hero() {
             className="w-full sm:w-[320px] relative overflow-hidden group rounded-[50px]"
             onClick={openChat}
           >
-            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
-            <motion.span
-              key={btnTextIdx}
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -20, opacity: 0 }}
-              className="block absolute w-full text-center"
-            >
-              {btnTexts[btnTextIdx]}
-            </motion.span>
-            <span className="opacity-0">{btnTexts[2]}</span>
+            VER NUESTROS SERVICIOS
           </Button>
         </motion.div>
 
-        {/* Stats: solo Proyectos y Clientes */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -149,4 +124,4 @@ function Counter({ value }: { value: number }) {
       {count}
     </span>
   );
-}
+                }
