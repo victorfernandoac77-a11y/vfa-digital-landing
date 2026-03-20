@@ -12,19 +12,30 @@ import { Authority } from "@/components/sections/Authority";
 import { Contact } from "@/components/sections/Contact";
 
 export function Landing() {
-    const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.defaultMuted = true;
-      videoRef.current.muted = true;
-      videoRef.current.play().catch(error => {
-        console.error("Autoplay bloqueado por el navegador:", error);
-      });
-    }
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.defaultMuted = true;
+    video.muted = true;
+
+    const tryPlay = () => {
+      video.play().catch(() => {});
+    };
+
+    tryPlay();
+
+    document.addEventListener("touchstart", tryPlay, { once: true, passive: true });
+    document.addEventListener("click", tryPlay, { once: true, passive: true });
+
+    return () => {
+      document.removeEventListener("touchstart", tryPlay);
+      document.removeEventListener("click", tryPlay);
+    };
   }, []);
-  
-  /* Cyber ripple global en todo toque/click */
+
   useEffect(() => {
     const spawnRipple = (x: number, y: number) => {
       const el = document.createElement("div");
@@ -50,8 +61,7 @@ export function Landing() {
 
   return (
     <div className="relative min-h-screen" style={{ background: "transparent" }}>
-      {/* Video de fondo cyber absoluto */}
-            <video
+      <video
         ref={videoRef}
         id="vfa-bg-video"
         autoPlay
@@ -59,9 +69,6 @@ export function Landing() {
         muted
         playsInline
         preload="auto"
-        x-webkit-airplay="allow"
-        x-webkit-playsinline="true"
-        webkit-playsinline="true"
         aria-hidden="true"
         style={{
           position: "fixed",
@@ -71,16 +78,13 @@ export function Landing() {
           height: "100%",
           objectFit: "cover",
           zIndex: -1,
-          opacity: 0.45,
+          opacity: 0.55,
         }}
       >
         <source src="/bg.mp4" type="video/mp4" />
       </video>
-        
 
-      {/* Red de circuitos neón sobre el video */}
       <CyberCanvas />
-
       <CyberBoot />
       <ScrollProgress />
       <Navbar />
@@ -97,4 +101,4 @@ export function Landing() {
       <AIChat />
     </div>
   );
-}
+                              }
