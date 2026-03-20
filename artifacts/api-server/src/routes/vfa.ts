@@ -107,8 +107,7 @@ Si el cliente quiere contactar a Fer o cerrar el servicio, ofrecé:
   } catch (err: unknown) {
     const e = err as Error;
     console.error("[VFA Chat Error]", e?.constructor?.name, e?.message, e?.stack);
-    res.status(200).json({ reply: "En este momento hay mucha demanda. Por favor contactá a Fer directamente por WhatsApp: https://wa.me/5491166813990" });
-  }
+    res.status(200).json({ reply: `En este momento hay mucha demanda. Contactemos a Fer por uno de los siguientes medios, ${name}` });
 });
 
 /* Admin: verificar contraseña */
