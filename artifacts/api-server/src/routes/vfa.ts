@@ -107,7 +107,7 @@ Si el cliente quiere contactar a Fer o cerrar el servicio, ofrecé:
   } catch (err: unknown) {
     const e = err as Error;
     console.error("[VFA Chat Error]", e?.constructor?.name, e?.message, e?.stack);
-    res.status(500).json({ error: "No pude procesar tu consulta ahora. Intentá de nuevo." });
+    res.status(200).json({ reply: "En este momento hay mucha demanda. Por favor contactá a Fer directamente por WhatsApp: https://wa.me/5491166813990" });
   }
 });
 
@@ -127,10 +127,9 @@ router.post("/admin/verify", (req: Request, res: Response) => {
   res.json({ success: true, data: { settings: loadSettings() } });
 });
 
-/* Admin: guardar settings — endpoint protegido */
+/* Admin: guardar settings */
 router.post("/admin/settings", (req: Request, res: Response) => {
   const { token, contact, services, promo } = req.body;
-
   if (!token || typeof token !== "string") {
     res.status(401).json({ error: "Acceso no autorizado." }); return;
   }
@@ -138,7 +137,6 @@ router.post("/admin/settings", (req: Request, res: Response) => {
   if (!adminPassword || token !== adminPassword) {
     res.status(401).json({ error: "Token inválido." }); return;
   }
-
   try {
     const current = loadSettings();
     const updated = {
@@ -148,7 +146,6 @@ router.post("/admin/settings", (req: Request, res: Response) => {
       promo: typeof promo === "string" ? promo : (current.promo || ""),
     };
     saveSettings(updated);
-    console.log("[VFA Admin] Settings actualizados correctamente.");
     res.json({ success: true, message: "Settings guardados." });
   } catch (err: unknown) {
     const e = err as Error;
