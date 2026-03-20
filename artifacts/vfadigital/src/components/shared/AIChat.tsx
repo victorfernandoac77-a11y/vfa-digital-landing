@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 */
 
 const WA_NUMBER = "5491166813990";
-const FB_URL = "https://www.facebook.com/vfadigital";
+const FB_URL = "https://m.me/vfadigital";
 type BtnState = "idle" | "loading";
 
 export function AIChat() {
