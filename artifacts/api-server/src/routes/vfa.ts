@@ -108,7 +108,6 @@ Si el cliente quiere contactar a Fer o cerrar el servicio, ofrecé:
     const e = err as Error;
     console.error("[VFA Chat Error]", e?.constructor?.name, e?.message, e?.stack);
     res.status(200).json({ reply: `En este momento hay mucha demanda. Contactemos a Fer por uno de los siguientes medios, ${name}` });
-});
 
 /* Admin: verificar contraseña */
 router.post("/admin/verify", (req: Request, res: Response) => {
