@@ -59,7 +59,7 @@ export function Navbar() {
           }}
           className="flex items-center gap-2 group focus:outline-none"
         >
-                  <img src="/1773966915033.png" alt="VFA Digital" className="h-10 md:h-12 w-auto object-contain drop-shadow-[0_0_8px_#00FF00]" />
+                  <img src="/1773966915033.png" alt="VFA Digital" className="h-16 md:h-18 w-auto object-contain drop-shadow-[0_0_8px_#00FF00]" />
           
         </button>
 
