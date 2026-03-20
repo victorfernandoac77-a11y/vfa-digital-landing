@@ -80,10 +80,20 @@ Ubicación: VFA Digital opera digitalmente desde Argentina y trabaja con toda La
 
 Si el cliente quiere contactar a Fer o cerrar el servicio, ofrecé:
 1. WhatsApp: https://wa.me/5491166813990
-2. Facebook Messenger: https://www.facebook.com/vfadigital (podés copiar este mensaje y pegarlo ahí)`;
+2. Facebook Messenger: https://m.me/982746351596780`;
 
     const safeHistory = Array.isArray(history) ? history : [];
-    
+
+    const chatHistory = safeHistory
+      .filter((h: { role: string; content: string }) => h?.role && h?.content?.trim())
+      .map((h: { role: string; content: string }) => ({
+        role: h.role === "user" ? "user" : "model",
+        parts: [{ text: h.content }],
+      }))
+      .filter((_: unknown, i: number, arr: { role: string }[]) =>
+        !(i === 0 && arr[0].role !== "user")
+      );
+
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", systemInstruction });
     const chat = model.startChat({ history: chatHistory });
     const result = await chat.sendMessage(message);
@@ -97,15 +107,7 @@ Si el cliente quiere contactar a Fer o cerrar el servicio, ofrecé:
   } catch (err: unknown) {
     const e = err as Error;
     console.error("[VFA Chat Error]", e?.constructor?.name, e?.message, e?.stack);
-    res.status(500).json({ error: "No pude procesar tu consulta ahora. Intentconst chatHistory = safeHistory
-  .filter((h: { role: string; content: string }) => h?.role && h?.content?.trim())
-  .map((h: { role: string; content: string }) => ({
-    role: h.role === "user" ? "user" : "model",
-    parts: [{ text: h.content }],
-  }))
-  .filter((_: unknown, i: number, arr: { role: string }[]) =>
-    !(i === 0 && arr[0].role !== "user")
-  );á de nuevo." });
+    res.status(500).json({ error: "No pude procesar tu consulta ahora. Intentá de nuevo." });
   }
 });
 
