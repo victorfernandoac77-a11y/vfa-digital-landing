@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+
 import { CyberBoot } from "@/components/shared/CyberBoot";
 import { ScrollProgress } from "@/components/shared/ScrollProgress";
 import { Navbar } from "@/components/shared/Navbar";
