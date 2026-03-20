@@ -94,7 +94,7 @@ Si el cliente quiere contactar a Fer o cerrar el servicio, ofrecé:
         !(i === 0 && arr[0].role !== "user")
       );
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", systemInstruction });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash", systemInstruction });
     const chat = model.startChat({ history: chatHistory });
     const result = await chat.sendMessage(message);
     const reply = result.response.text();
