@@ -57,7 +57,7 @@ iframe[src*="replit.com/badge"] {
   z-index: -100;
   object-fit: cover;
   pointer-events: none;
-  opacity: 0.72;
+  opacity: 1;
 }
 
 /* ===== UI GLASSMORPHISM OVERRIDE ===== */
