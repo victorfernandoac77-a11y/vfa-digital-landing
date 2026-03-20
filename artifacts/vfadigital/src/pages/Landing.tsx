@@ -12,6 +12,18 @@ import { Authority } from "@/components/sections/Authority";
 import { Contact } from "@/components/sections/Contact";
 
 export function Landing() {
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      videoRef.current.play().catch(error => {
+        console.error("Autoplay bloqueado por el navegador:", error);
+      });
+    }
+  }, []);
+  
   /* Cyber ripple global en todo toque/click */
   useEffect(() => {
     const spawnRipple = (x: number, y: number) => {
@@ -39,30 +51,32 @@ export function Landing() {
   return (
     <div className="relative min-h-screen" style={{ background: "transparent" }}>
       {/* Video de fondo cyber absoluto */}
-      <video
-  id="vfa-bg-video"
-  autoPlay
-  loop
-  muted
-  playsInline
-  preload="auto"
-x-webkit-airplay="allow"
-x-webkit-playsinline="true"
-webkit-playsinline="true"
-  aria-hidden="true"
-  style={{
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    zIndex: -1,
-    opacity: 0.45,
-  }}
->
-  <source src="/bg.mp4" type="video/mp4" />
-</video>
+            <video
+        ref={videoRef}
+        id="vfa-bg-video"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        x-webkit-airplay="allow"
+        x-webkit-playsinline="true"
+        webkit-playsinline="true"
+        aria-hidden="true"
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          zIndex: -1,
+          opacity: 0.45,
+        }}
+      >
+        <source src="/bg.mp4" type="video/mp4" />
+      </video>
+        
 
       {/* Red de circuitos neón sobre el video */}
       <CyberCanvas />
