@@ -78,7 +78,7 @@ export function Landing() {
           height: "100%",
           objectFit: "cover",
           zIndex: -1,
-          opacity: 0.55,
+          opacity: 1,
         }}
       >
         <source src="/bg.mp4" type="video/mp4" />
