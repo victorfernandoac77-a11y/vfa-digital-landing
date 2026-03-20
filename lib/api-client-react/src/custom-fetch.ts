@@ -279,6 +279,15 @@ export async function customFetch<T = unknown>(
 
   const method = resolveMethod(input, init.method);
 
+  // --- PARCHE VFA: REDIRECCIÓN AUTOMÁTICA A RENDER ---
+  let targetUrl = resolveUrl(input);
+  if (targetUrl.includes("localhost")) {
+    targetUrl = targetUrl.replace(/http:\/\/localhost:\d+/, "https://vfa-digital-landing-1.onrender.com");
+  } else if (targetUrl.startsWith("/")) {
+    targetUrl = "https://vfa-digital-landing-1.onrender.com" + targetUrl;
+  }
+  // ---------------------------------------------------
+
   if (init.body != null && (method === "GET" || method === "HEAD")) {
     throw new TypeError(`customFetch: ${method} requests cannot have a body.`);
   }
@@ -294,12 +303,13 @@ export async function customFetch<T = unknown>(
   }
 
   if (responseType === "json" && !headers.has("accept")) {
-    headers.set("accept", DEFAULT_JSON_ACCEPT);
+    headers.set("accept", "application/json, application/problem+json");
   }
 
-  const requestInfo = { method, url: resolveUrl(input) };
+  const requestInfo = { method, url: targetUrl };
 
-  const response = await fetch(input, { ...init, method, headers });
+  // Acá usamos el targetUrl modificado en lugar del input original
+  const response = await fetch(targetUrl, { ...init, method, headers });
 
   if (!response.ok) {
     const errorData = await parseErrorBody(response, method);
