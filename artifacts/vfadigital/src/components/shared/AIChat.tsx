@@ -1,76 +1,111 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageSquare, X, Bot, ExternalLink } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-
-/* Chat simplificado:
-   1. El usuario escribe su consulta directamente
-   2. Elige a dónde enviarla: WhatsApp o Facebook
-   3. El mensaje enviado incluye solo la consulta del usuario
-*/
+import { MessageSquare, X, Bot, ExternalLink, Send } from "lucide-react";
 
 const WA_NUMBER = "5491166813990";
-const FB_URL = "https://m.me/VFADigital";
-type BtnState = "idle" | "loading";
+const FB_URL = "https://m.me/982746351596780";
+
+interface Message {
+  role: "user" | "assistant";
+  content: string;
+}
 
 export function AIChat() {
   const [isOpen, setIsOpen] = useState(false);
-  const [query, setQuery] = useState("");
-  const [waBtnState, setWaBtnState] = useState<BtnState>("idle");
-  const [fbBtnState, setFbBtnState] = useState<BtnState>("idle");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const [chatBobble, setChatBobble] = useState(true);
-  const [sent, setSent] = useState(false);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [step, setStep] = useState<"form" | "chat">("form");
+  const bottomRef = useRef<HTMLDivElement>(null);
 
-  /* Abrir desde otros componentes vía evento global */
   useEffect(() => {
     const handler = () => setIsOpen(true);
     window.addEventListener("vfa:open-chat", handler);
     return () => window.removeEventListener("vfa:open-chat", handler);
   }, []);
 
-  /* Ocultar burbuja de texto después de 6s */
   useEffect(() => {
     const t = setTimeout(() => setChatBobble(false), 6000);
     return () => clearTimeout(t);
   }, []);
 
-  /* Resetear al cerrar */
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
+
   const handleClose = () => {
     setIsOpen(false);
     setTimeout(() => {
-      setQuery("");
-      setWaBtnState("idle");
-      setFbBtnState("idle");
-      setSent(false);
+      setMessages([]);
+      setInput("");
+      setLoading(false);
+      setName("");
+      setPhone("");
+      setStep("form");
     }, 400);
   };
 
-  const buildMsg = () =>
-    `Hola Fer! Te escribo desde tu web VFADigital con esta consulta:\n\n${query.trim()}`;
-
-  const handleWA = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (!query.trim() || waBtnState === "loading") return;
-    setWaBtnState("loading");
-    setSent(true);
-    setTimeout(() => {
-      window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(buildMsg())}`, "_blank");
-      setWaBtnState("idle");
-      handleClose();
-    }, 1500);
+  const handleStartChat = () => {
+    if (!name.trim()) return;
+    setStep("chat");
+    setMessages([{
+      role: "assistant",
+      content: `¡Hola ${name}! Soy el asistente de VFA Digital. ¿En qué puedo ayudarte hoy?`,
+    }]);
   };
 
-  const handleFB = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (!query.trim() || fbBtnState === "loading") return;
-    setFbBtnState("loading");
-    setSent(true);
-    setTimeout(() => {
-      window.open(FB_URL, "_blank");
-      setFbBtnState("idle");
-      handleClose();
-    }, 1500);
+  const handleSend = async () => {
+    if (!input.trim() || loading) return;
+    const userMsg = input.trim();
+    setInput("");
+    const newMessages: Message[] = [...messages, { role: "user", content: userMsg }];
+    setMessages(newMessages);
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          phone,
+          message: userMsg,
+          history: newMessages.slice(0, -1),
+        }),
+      });
+      const data = await res.json();
+      setMessages(prev => [...prev, {
+        role: "assistant",
+        content: data.reply ?? "No pude procesar tu consulta. Intentá de nuevo.",
+      }]);
+    } catch {
+      setMessages(prev => [...prev, {
+        role: "assistant",
+        content: "Error de conexión. Intentá de nuevo.",
+      }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const buildSummary = () => {
+    const lines = messages
+      .map(m => `${m.role === "user" ? name : "VFA"}:  ${m.content}`)
+      .join("\n");
+    return `Hola Fer! Te escribo desde tu web VFADigital.\n\nNombre: ${name}\nTeléfono: ${phone || "no indicado"}\n\nConversación:\n${lines}`;
+  };
+
+  const handleWA = () => {
+    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(buildSummary())}`, "_blank");
+    handleClose();
+  };
+
+  const handleFB = () => {
+    window.open(FB_URL, "_blank");
+    handleClose();
   };
 
   return (
@@ -105,7 +140,7 @@ export function AIChat() {
         </motion.button>
       </div>
 
-      {/* Panel de chat */}
+      {/* Panel */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -114,7 +149,7 @@ export function AIChat() {
             exit={{ opacity: 0, y: 18, scale: 0.96 }}
             transition={{ duration: 0.22 }}
             className="fixed right-4 w-[calc(100vw-32px)] sm:w-[360px] glass-panel rounded-3xl overflow-hidden flex flex-col z-[9998] border-primary/20 shadow-[0_0_40px_rgba(204,255,0,0.12)]"
-            style={{ bottom: "calc(22vh + 68px)", maxHeight: "min(480px, 72vh)" }}
+            style={{ bottom: "calc(22vh + 68px)", maxHeight: "min(520px, 75vh)" }}
           >
             {/* Header */}
             <div className="bg-black/60 border-b border-white/5 p-4 flex items-center gap-3 shrink-0">
@@ -128,67 +163,109 @@ export function AIChat() {
                   Online — Fer responde en &lt;1h
                 </p>
               </div>
-              <button onClick={handleClose} className="ml-auto text-muted-foreground hover:text-white transition-colors" aria-label="Cerrar">
+              <button onClick={handleClose} className="ml-auto text-muted-foreground hover:text-white transition-colors">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Body */}
-            <div className="flex-1 flex flex-col gap-4 p-5 overflow-y-auto">
-              <p className="text-sm text-white/70 font-body leading-relaxed">
-                Escribí tu consulta y elegís si la mandamos por <strong className="text-primary">WhatsApp</strong> o por <strong className="text-[#0084FF]">Messenger</strong>. Fer la recibe al instante.
-              </p>
+            <div className="flex-1 flex flex-col gap-3 p-4 overflow-y-auto">
 
-              <Textarea
-                placeholder="¿Qué necesitás? Ej: Quiero una web para mi negocio de...\n¿Cuánto sale una landing rápida?"
-                value={query}
-                onChange={e => setQuery(e.target.value)}
-                rows={5}
-                className="resize-none bg-black/60 border-white/10 text-sm text-white font-body placeholder:text-white/30 focus:border-primary/50 rounded-xl"
-                autoFocus
-                disabled={sent}
-              />
+              {step === "form" ? (
+                <>
+                  <p className="text-sm text-white/70 font-body">
+                    Para empezar, decinos tu nombre:
+                  </p>
+                  <input
+                    type="text"
+                    placeholder="Tu nombre"
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    className="bg-black/60 border border-white/10 rounded-xl px-4 py-2 text-sm text-white font-body placeholder:text-white/30 focus:border-primary/50 outline-none"
+                    onKeyDown={e => e.key === "Enter" && handleStartChat()}
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Tu teléfono (opcional)"
+                    value={phone}
+                    onChange={e => setPhone(e.target.value)}
+                    className="bg-black/60 border border-white/10 rounded-xl px-4 py-2 text-sm text-white font-body placeholder:text-white/30 focus:border-primary/50 outline-none"
+                    onKeyDown={e => e.key === "Enter" && handleStartChat()}
+                  />
+                  <button
+                    onClick={handleStartChat}
+                    disabled={!name.trim()}
+                    className="w-full py-3 rounded-[50px] font-display font-bold text-sm bg-primary text-black disabled:opacity-40"
+                  >
+                    Iniciar chat
+                  </button>
+                </>
+              ) : (
+                <>
+                  {messages.map((m, i) => (
+                    <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+                      <div className={`max-w-[80%] px-4 py-2 rounded-2xl text-sm font-body leading-relaxed ${
+                        m.role === "user"
+                          ? "bg-primary text-black"
+                          : "bg-white/10 text-white"
+                      }`}>
+                        {m.content}
+                      </div>
+                    </div>
+                  ))}
 
-              {/* Botón WhatsApp */}
-              <button
-                onClick={handleWA}
-                disabled={!query.trim() || waBtnState === "loading" || sent}
-                className="w-full py-3 rounded-[50px] font-display font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-40"
-                style={{
-                  backgroundColor: waBtnState === "loading" ? "#00FF00" : "#25D366",
-                  color: "black",
-                }}
-              >
-                {waBtnState === "loading" ? (
-                  "✔️ Conexión segura establecida... Redirigiendo"
-                ) : (
-                  <><ExternalLink className="w-4 h-4" /> Enviar por WhatsApp</>
-                )}
-              </button>
+                  {loading && (
+                    <div className="flex justify-start">
+                      <div className="bg-white/10 px-4 py-2 rounded-2xl text-sm text-white/50 font-body animate-pulse">
+                        Escribiendo...
+                      </div>
+                    </div>
+                  )}
+                  <div ref={bottomRef} />
 
-              {/* Botón Messenger */}
-              <button
-                onClick={handleFB}
-                disabled={!query.trim() || fbBtnState === "loading" || sent}
-                className="w-full py-3 rounded-[50px] font-display font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-40"
-                style={{
-                  backgroundColor: fbBtnState === "loading" ? "#00FF00" : "#0084FF",
-                  color: fbBtnState === "loading" ? "black" : "white",
-                }}
-              >
-                {fbBtnState === "loading" ? (
-                  <span className="text-black">✔️ Conexión segura establecida... Redirigiendo</span>
-                ) : (
-                  <><ExternalLink className="w-4 h-4" /> Enviar por Messenger</>
-                )}
-              </button>
-
-              {sent && (
-                <p className="text-center text-xs text-primary/70 font-body animate-pulse">
-                  Abriendo conexión segura...
-                </p>
+                  {messages.length > 2 && (
+                    <div className="flex gap-2 mt-2">
+                      <button
+                        onClick={handleWA}
+                        className="flex-1 py-2 rounded-[50px] font-display font-bold text-xs flex items-center justify-center gap-1"
+                        style={{ backgroundColor: "#25D366", color: "black" }}
+                      >
+                        <ExternalLink className="w-3 h-3" /> WhatsApp
+                      </button>
+                      <button
+                        onClick={handleFB}
+                        className="flex-1 py-2 rounded-[50px] font-display font-bold text-xs flex items-center justify-center gap-1"
+                        style={{ backgroundColor: "#0084FF", color: "white" }}
+                      >
+                        <ExternalLink className="w-3 h-3" /> Messenger
+                      </button>
+                    </div>
+                  )}
+                </>
               )}
             </div>
+
+            {/* Input */}
+            {step === "chat" && (
+              <div className="border-t border-white/5 p-3 flex gap-2 shrink-0">
+                <input
+                  type="text"
+                  placeholder="Escribí tu consulta..."
+                  value={input}
+                  onChange={e => setInput(e.target.value)}
+                  onKeyDown={e => e.key === "Enter" && handleSend()}
+                  className="flex-1 bg-black/60 border border-white/10 rounded-xl px-4 py-2 text-sm text-white font-body placeholder:text-white/30 focus:border-primary/50 outline-none"
+                  disabled={loading}
+                />
+                <button
+                  onClick={handleSend}
+                  disabled={!input.trim() || loading}
+                  className="w-10 h-10 rounded-full bg-primary text-black flex items-center justify-center disabled:opacity-40"
+                >
+                  <Send className="w-4 h-4" />
+                </button>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
@@ -204,4 +281,4 @@ export function AIChat() {
       `}</style>
     </>
   );
-}
+       }
