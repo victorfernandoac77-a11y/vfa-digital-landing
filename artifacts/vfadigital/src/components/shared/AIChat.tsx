@@ -160,7 +160,7 @@ export function AIChat() {
                 <h4 className="font-display font-bold text-white text-base leading-none">VFA Assistant</h4>
                 <p className="text-xs text-primary font-body flex items-center gap-1 mt-0.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                  Online — Fer responde en &lt;1h
+                  Online — Fer responde en &lt;breve
                 </p>
               </div>
               <button onClick={handleClose} className="ml-auto text-muted-foreground hover:text-white transition-colors">
