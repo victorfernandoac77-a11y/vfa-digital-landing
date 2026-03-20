@@ -59,17 +59,8 @@ export function Navbar() {
           }}
           className="flex items-center gap-2 group focus:outline-none"
         >
-          <span
-            className="font-display font-black text-3xl md:text-4xl tracking-widest text-white select-none"
-            style={{
-              textShadow: logoHovered
-                ? "0 0 15px #CCFF00, 0 0 30px #CCFF00, 0 0 50px #CCFF00"
-                : "none",
-              transition: "text-shadow 0.3s ease",
-            }}
-          >
-            VFA<span className="text-primary">Digital</span>
-          </span>
+                  <img src="/1773966915033.png" alt="VFA Digital" className="h-10 md:h-12 w-auto object-contain drop-shadow-[0_0_8px_#00FF00]" />
+          
         </button>
 
         {/* Desktop Nav */}
