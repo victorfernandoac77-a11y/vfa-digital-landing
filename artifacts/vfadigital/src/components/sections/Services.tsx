@@ -21,7 +21,7 @@ const BASE_SERVICES = [
   {
     id: "dynamic",
     titleKey: "services.dynamic",
-    tooltip: "¿Por qué el rango? $90k te da control de tus datos base. Escala a 130usd -$180k Arg- si necesitas gestionar catálogos o promociones en tiempo real.",
+    tooltip: "¿Por qué el rango? 90usd-$120k Arg- te da control de tus datos base. Escala a 130usd -$180k Arg- si necesitas gestionar catálogos o promociones en tiempo real.",
     features: ["Panel de Administración", "Catálogo autogestionable", "Base de datos", "Diseño interactivo"],
     featured: true,
     color: NEON_COLORS[2],
