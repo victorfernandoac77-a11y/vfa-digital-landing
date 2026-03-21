@@ -150,12 +150,16 @@ function ServiceCard({
 
       <div className="flex items-center gap-2 mb-6" style={{ transform: "translateZ(40px)" }}>
         <span className="text-xl font-display font-bold text-primary">{price}</span>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button className="text-muted-foreground hover:text-white transition-colors touch-manipulation">
-              <HelpCircle className="w-5 h-5" />
-            </button>
-          </TooltipTrigger>
+        <Tooltip delayDuration={0}>
+  <TooltipTrigger asChild>
+    <button 
+      onClick={(e) => e.preventDefault()} 
+      className="text-muted-foreground hover:text-white transition-colors p-2 -m-2 touch-manipulation"
+    >
+      <HelpCircle className="w-6 h-6" />
+    </button>
+  </TooltipTrigger>
+
           <TooltipContent
             className="max-w-[260px] bg-[#1A1A1A] border border-primary/30 text-white rounded-xl p-4"
             side="top"
