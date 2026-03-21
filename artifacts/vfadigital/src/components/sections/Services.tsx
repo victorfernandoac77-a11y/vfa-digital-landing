@@ -158,32 +158,43 @@ function ServiceCard({
         <Tooltip delayDuration={0}>
           <TooltipTrigger asChild>
             <button 
-              onPointerDown={(e) => {
-                e.preventDefault();
-                setShowTransparency(false);
-              }} 
+              onClick={() => setShowTransparency(false)} 
               className="text-muted-foreground hover:text-white transition-colors p-2 -m-2 touch-manipulation cursor-pointer"
             >
               <HelpCircle className="w-5 h-5" />
             </button>
           </TooltipTrigger>
           <TooltipContent
-            className="max-w-[280px] bg-[#1A1A1A] border border-primary/30 text-white rounded-xl p-5 shadow-2xl"
+            className="max-w-[280px] bg-[#1A1A1A] border border-primary/30 text-white rounded-xl p-5 shadow-2xl overflow-hidden"
             side="top"
           >
-            <div className="relative pb-10">
-              <div className="flex flex-col gap-4">
-                <p className="font-body text-sm leading-relaxed text-white/90">
+            <div className="relative">
+              {/* EL ICONO ⚠️ QUE DISPARA EL TEXTO (ESQUINA INFERIOR DERECHA) */}
+              <div 
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowTransparency(!showTransparency);
+                }}
+                className="absolute -bottom-2 -right-2 p-3 text-amber-400 hover:text-amber-300 transition-colors cursor-pointer z-50 touch-auto"
+              >
+                <span className="text-xl">⚠️</span>
+              </div>
+
+              <div className="flex flex-col gap-4 pr-2">
+                {/* Texto explicativo del rango de precio */}
+                <p className="font-body text-sm leading-relaxed text-white/90 mb-2">
                   {tooltip}
                 </p>
 
+                {/* Mensaje de transparencia */}
                 <AnimatePresence>
                   {showTransparency && (
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="overflow-hidden border-t border-white/10 mt-2 pt-3"
+                      className="overflow-hidden border-t border-white/10 pt-3"
                     >
                       <p className="font-body text-[11px] leading-snug text-white/60 italic">
                         {transparencyText}
@@ -191,18 +202,6 @@ function ServiceCard({
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
-
-              {/* BOTÓN ⚠️ CORREGIDO PARA MÓVILES */}
-              <div 
-                onPointerDown={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setShowTransparency(!showTransparency);
-                }}
-                className="absolute bottom-0 right-0 p-4 -m-2 cursor-pointer z-[100] touch-none"
-              >
-                <span className="text-xl select-none">⚠️</span>
               </div>
             </div>
           </TooltipContent>
@@ -228,4 +227,4 @@ function ServiceCard({
       </Button>
     </motion.div>
   );
-}
+                             }
