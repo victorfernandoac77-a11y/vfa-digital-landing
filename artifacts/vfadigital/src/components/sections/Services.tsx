@@ -160,7 +160,7 @@ function ServiceCard({
             <button 
               onClick={(e) => {
                 e.preventDefault();
-                setShowTransparency(false);
+                setShowTransparency(false); // Resetea el aviso al abrir de nuevo el tooltip principal
               }} 
               className="text-muted-foreground hover:text-white transition-colors p-2 -m-2 touch-manipulation"
             >
@@ -168,37 +168,42 @@ function ServiceCard({
             </button>
           </TooltipTrigger>
           <TooltipContent
-            className="max-w-[280px] bg-[#1A1A1A] border border-primary/30 text-white rounded-xl p-5 shadow-2xl"
+            className="max-w-[280px] bg-[#1A1A1A] border border-primary/30 text-white rounded-xl p-5 shadow-2xl overflow-hidden"
             side="top"
           >
-            <div className="flex flex-col gap-4 relative">
-              <p className="font-body text-sm leading-relaxed text-white/90">
-                {tooltip}
-              </p>
+            <div className="relative">
+              {/* EL ICONO ⚠️ QUE DISPARA EL TEXTO (UBICADO ARRIBA A LA DERECHA) */}
+              <button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowTransparency(!showTransparency);
+                }}
+                className="absolute -top-2 -right-2 p-2 text-amber-400 hover:text-amber-300 transition-colors touch-manipulation z-10"
+                title="Ver info legal"
+              >
+                <span className="text-xl">⚠️</span>
+              </button>
 
-              <div className="border-t border-white/10 pt-3">
-                <button 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setShowTransparency(!showTransparency);
-                  }}
-                  className="flex items-center gap-2 text-amber-400 hover:text-amber-300 transition-colors"
-                >
-                  <span className="text-xl">⚠️</span>
-                  {!showTransparency && <span className="text-[10px] text-white/40 italic">Ver info legal</span>}
-                </button>
+              <div className="flex flex-col gap-4 pr-6">
+                {/* Texto explicativo del rango de precio */}
+                <p className="font-body text-sm leading-relaxed text-white/90">
+                  {tooltip}
+                </p>
 
+                {/* Mensaje de transparencia: Se despliega si pulsaste el icono ⚠️ */}
                 <AnimatePresence>
                   {showTransparency && (
-                    <motion.p 
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="font-body text-[11px] leading-snug text-white/60 italic mt-3 overflow-hidden"
+                    <motion.div
+                      initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                      animate={{ opacity: 1, height: "auto", marginTop: 12 }}
+                      exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                      className="overflow-hidden border-t border-white/10 pt-3"
                     >
-                      {transparencyText}
-                    </motion.p>
+                      <p className="font-body text-[11px] leading-snug text-white/60 italic">
+                        {transparencyText}
+                      </p>
+                    </motion.div>
                   )}
                 </AnimatePresence>
               </div>
@@ -226,4 +231,4 @@ function ServiceCard({
       </Button>
     </motion.div>
   );
-}
+  }
