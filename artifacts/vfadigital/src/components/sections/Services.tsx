@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HelpCircle, CheckCircle2 } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translations";
@@ -21,7 +21,7 @@ const BASE_SERVICES = [
   {
     id: "dynamic",
     titleKey: "services.dynamic",
-    tooltip: "¿Por qué el rango? 90usd-$120k Arg- te da control de tus datos base. Escala a 130usd -$180k Arg- si necesitas gestionar catálogos o promociones en tiempo real.",
+    tooltip: "¿Por qué el rango? 90usd -$120k Arg- te da control de tus datos base. Escala a 130usd -$180k Arg- si necesitas gestionar catálogos o promociones en tiempo real.",
     features: ["Panel de Administración", "Catálogo autogestionable", "Base de datos", "Diseño interactivo"],
     featured: true,
     color: NEON_COLORS[2],
@@ -107,6 +107,7 @@ export function Services() {
     </section>
   );
 }
+
 function ServiceCard({
   titleKey, price, tooltip, features, featured, color, t,
 }: {
@@ -114,6 +115,7 @@ function ServiceCard({
   featured?: boolean; color: string; t: (k: string) => string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const [showTransparency, setShowTransparency] = useState(false);
   const { rotateX, rotateY, handlePointerMove, handlePointerLeave } = useTilt(ref);
 
   const handleCTA = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -153,11 +155,13 @@ function ServiceCard({
       <div className="flex items-center gap-2 mb-6" style={{ transform: "translateZ(40px)" }}>
         <span className="text-xl font-display font-bold text-primary">{price}</span>
         
-        {/* ÚNICO ICONO TRIGGER (?) */}
         <Tooltip delayDuration={0}>
           <TooltipTrigger asChild>
             <button 
-              onClick={(e) => e.preventDefault()} 
+              onClick={(e) => {
+                e.preventDefault();
+                setShowTransparency(false);
+              }} 
               className="text-muted-foreground hover:text-white transition-colors p-2 -m-2 touch-manipulation"
             >
               <HelpCircle className="w-5 h-5" />
@@ -167,18 +171,36 @@ function ServiceCard({
             className="max-w-[280px] bg-[#1A1A1A] border border-primary/30 text-white rounded-xl p-5 shadow-2xl"
             side="top"
           >
-            <div className="flex flex-col gap-4">
-              {/* Parte 1: El texto del rango de precio */}
+            <div className="flex flex-col gap-4 relative">
               <p className="font-body text-sm leading-relaxed text-white/90">
                 {tooltip}
               </p>
 
-              {/* Parte 2: Separador y el icono ⚠️ con el mensaje adentro */}
-              <div className="flex gap-3 items-start border-t border-white/10 pt-3">
-                <span className="text-xl shrink-0">⚠️</span>
-                <p className="font-body text-[11px] leading-snug text-white/60 italic">
-                  {transparencyText}
-                </p>
+              <div className="border-t border-white/10 pt-3">
+                <button 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowTransparency(!showTransparency);
+                  }}
+                  className="flex items-center gap-2 text-amber-400 hover:text-amber-300 transition-colors"
+                >
+                  <span className="text-xl">⚠️</span>
+                  {!showTransparency && <span className="text-[10px] text-white/40 italic">Ver info legal</span>}
+                </button>
+
+                <AnimatePresence>
+                  {showTransparency && (
+                    <motion.p 
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="font-body text-[11px] leading-snug text-white/60 italic mt-3 overflow-hidden"
+                    >
+                      {transparencyText}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </TooltipContent>
@@ -204,4 +226,4 @@ function ServiceCard({
       </Button>
     </motion.div>
   );
-      }
+}
