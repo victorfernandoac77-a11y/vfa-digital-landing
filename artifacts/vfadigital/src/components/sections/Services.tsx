@@ -13,7 +13,7 @@ const BASE_SERVICES = [
   {
     id: "static",
     titleKey: "services.static",
-    tooltip: "¿Por qué el rango? 60usd-$80k Arg- cubre tu vidriera digital rápida. Escala a 90usd -$120k Arg- si requieres múltiples secciones y animaciones personalizadas.",
+    tooltip: "¿Por qué el rango? 60usd -$80k Arg- cubre tu vidriera digital rápida. Escala a 90usd -$120k Arg- si requieres múltiples secciones y animaciones personalizadas.",
     features: ["Diseño Mobile-First", "Formulario de Contacto", "Integración WhatsApp", "Optimizada para velocidad"],
     color: NEON_COLORS[0],
     settingsKey: "static" as const,
@@ -21,7 +21,7 @@ const BASE_SERVICES = [
   {
     id: "dynamic",
     titleKey: "services.dynamic",
-    tooltip: "¿Por qué el rango? 90usd-$120k Arg- te da control de tus datos base. Escala a 130usd -$180k Arg- si necesitas gestionar catálogos o promociones en tiempo real.",
+    tooltip: "¿Por qué el rango? 90usd -$120k Arg- te da control de tus datos base. Escala a 130usd -$180k Arg- si necesitas gestionar catálogos o promociones en tiempo real.",
     features: ["Panel de Administración", "Catálogo autogestionable", "Base de datos", "Diseño interactivo"],
     featured: true,
     color: NEON_COLORS[2],
@@ -89,8 +89,9 @@ export function Services() {
               : svc.settingsKey === "static"
               ? "60usd -$80.000 Arg- - 90usd -$120.000 Arg-"
               : svc.settingsKey === "dynamic"
-              ? "90usd -$120.000 Arg - 130usd -$160.000 Arg"
+              ? "90usd -$120.000 Arg - 130usd -$180.000 Arg"
               : "130usd -$180.000 Arg- - 170usd -$250.000 Arg";
+
             return (
               <div id={svc.id === "dynamic" ? "service-dynamic" : undefined} key={svc.id}>
                 <ServiceCard
@@ -123,6 +124,8 @@ function ServiceCard({
     openChatWidget();
   };
 
+  const transparencyText = "🛡️ Transparencia VFA: Los valores corresponden únicamente al diseño y desarrollo. Los costos de suscripciones externas (Hosting, Dominio, Tokens de IA) son gestionados y abonados por el cliente para garantizar su total propiedad sobre el sistema.";
+
   return (
     <motion.div
       ref={ref}
@@ -151,20 +154,29 @@ function ServiceCard({
       <div className="flex items-center gap-2 mb-6" style={{ transform: "translateZ(40px)" }}>
         <span className="text-xl font-display font-bold text-primary">{price}</span>
         <Tooltip delayDuration={0}>
-  <TooltipTrigger asChild>
-    <button 
-      onClick={(e) => e.preventDefault()} 
-      className="text-muted-foreground hover:text-white transition-colors p-2 -m-2 touch-manipulation"
-    >
-      <HelpCircle className="w-6 h-6" />
-    </button>
-  </TooltipTrigger>
-
+          <TooltipTrigger asChild>
+            <button 
+              onClick={(e) => e.preventDefault()} 
+              className="text-muted-foreground hover:text-white transition-colors p-2 -m-2 touch-manipulation"
+            >
+              <HelpCircle className="w-6 h-6" />
+            </button>
+          </TooltipTrigger>
           <TooltipContent
-            className="max-w-[260px] bg-[#1A1A1A] border border-primary/30 text-white rounded-xl p-4"
+            className="max-w-[280px] bg-[#1A1A1A] border border-primary/30 text-white rounded-xl p-5 shadow-2xl"
             side="top"
           >
-            <p className="font-body text-sm leading-relaxed">{tooltip}</p>
+            <div className="flex flex-col gap-3 relative pb-6">
+              <p className="font-body text-sm leading-relaxed text-white/90">
+                {tooltip}
+              </p>
+              <p className="font-body text-[11px] leading-snug text-white/50 italic border-t border-white/10 pt-3">
+                {transparencyText}
+              </p>
+              <span className="absolute bottom-0 right-0 text-lg opacity-80" role="img" aria-label="warning">
+                ⚠️
+              </span>
+            </div>
           </TooltipContent>
         </Tooltip>
       </div>
@@ -188,5 +200,4 @@ function ServiceCard({
       </Button>
     </motion.div>
   );
-      }
-
+}
