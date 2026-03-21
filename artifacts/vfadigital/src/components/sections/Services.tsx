@@ -12,41 +12,26 @@ const NEON_COLORS = ["#00FFFF", "#FF00FF", "#CCFF00", "#FF6600", "#AA00FF"];
 const BASE_SERVICES = [
   {
     id: "static",
-    titleKey: "services.static.title",
-    tooltipKey: "services.static.tooltip",
-    featuresKeys: [
-      "services.static.feat1",
-      "services.static.feat2",
-      "services.static.feat3",
-      "services.static.feat4"
-    ],
+    titleKey: "services.static",
+    tooltip: "¿Por qué el rango? $60k cubre tu vidriera digital rápida. Escala a $120k si requieres múltiples secciones y animaciones personalizadas.",
+    features: ["Diseño Mobile-First", "Formulario de Contacto", "Integración WhatsApp", "Optimizada para velocidad"],
     color: NEON_COLORS[0],
     settingsKey: "static" as const,
   },
   {
     id: "dynamic",
-    titleKey: "services.dynamic.title",
-    tooltipKey: "services.dynamic.tooltip",
-    featuresKeys: [
-      "services.dynamic.feat1",
-      "services.dynamic.feat2",
-      "services.dynamic.feat3",
-      "services.dynamic.feat4"
-    ],
+    titleKey: "services.dynamic",
+    tooltip: "¿Por qué el rango? $90k te da control de tus datos base. Escala a $160k si necesitas gestionar catálogos o promociones en tiempo real.",
+    features: ["Panel de Administración", "Catálogo autogestionable", "Base de datos", "Diseño interactivo"],
     featured: true,
     color: NEON_COLORS[2],
     settingsKey: "dynamic" as const,
   },
   {
     id: "smart",
-    titleKey: "services.smart.title",
-    tooltipKey: "services.smart.tooltip",
-    featuresKeys: [
-      "services.smart.feat1",
-      "services.smart.feat2",
-      "services.smart.feat3",
-      "services.smart.feat4"
-    ],
+    titleKey: "services.smart",
+    tooltip: "¿Por qué el rango? $180k incluye tu Asistente IA base y fondo 3D. Escala a $250k al entrenar a tu IA como cerrador de ventas experto con 3D a medida.",
+    features: ["Asistente IA (Gemini)", "Entrenamiento en ventas", "Entornos 3D Cyber-UX", "Automatización total"],
     color: NEON_COLORS[4],
     settingsKey: "smart" as const,
   },
@@ -73,7 +58,7 @@ export function Services() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-6">
           <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-4">
-            <span className="text-primary">/</span> {t("services.section.title")}
+            <span className="text-primary">/</span> Nuestros Servicios
           </h2>
           <div className="w-24 h-1 bg-primary/30 mx-auto rounded-full" />
         </div>
@@ -106,7 +91,6 @@ export function Services() {
               : svc.settingsKey === "dynamic"
               ? "$90.000 - $160.000"
               : "$180.000 - $250.000";
-
             return (
               <div id={svc.id === "dynamic" ? "service-dynamic" : undefined} key={svc.id}>
                 <ServiceCard
@@ -124,9 +108,9 @@ export function Services() {
 }
 
 function ServiceCard({
-  titleKey, price, tooltipKey, featuresKeys, featured, color, t,
+  titleKey, price, tooltip, features, featured, color, t,
 }: {
-  titleKey: string; price: string; tooltipKey: string; featuresKeys: string[];
+  titleKey: string; price: string; tooltip: string; features: string[];
   featured?: boolean; color: string; t: (k: string) => string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -156,7 +140,7 @@ function ServiceCard({
     >
       {featured && (
         <div className="absolute top-0 right-8 -translate-y-1/2 bg-primary text-black font-display font-bold px-4 py-1 rounded-full text-sm tracking-wider">
-          {t("services.badge.recommended")}
+          RECOMENDADO
         </div>
       )}
 
@@ -176,16 +160,16 @@ function ServiceCard({
             className="max-w-[260px] bg-[#1A1A1A] border border-primary/30 text-white rounded-xl p-4"
             side="top"
           >
-            <p className="font-body text-sm leading-relaxed">{t(tooltipKey)}</p>
+            <p className="font-body text-sm leading-relaxed">{tooltip}</p>
           </TooltipContent>
         </Tooltip>
       </div>
 
       <ul className="flex-1 flex flex-col gap-4 mb-8" style={{ transform: "translateZ(20px)" }}>
-        {featuresKeys.map((featKey, i) => (
+        {features.map((f, i) => (
           <li key={i} className="flex items-center gap-3 font-body text-sm text-white/80">
             <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-            {t(featKey)}
+            {f}
           </li>
         ))}
       </ul>
@@ -196,8 +180,9 @@ function ServiceCard({
         style={{ transform: "translateZ(30px)" }}
         onClick={handleCTA}
       >
-        {t("services.button.cta")}
+        Solicitar Presupuesto
       </Button>
     </motion.div>
   );
-            }
+      }
+
