@@ -173,18 +173,4 @@ function ServiceCard({
             </button>
           </TooltipTrigger>
           <TooltipContent
-            className="max-w-[260px] bg-[#1A1A1A] border border-primary/30 text-white rounded-xl p-4"
-            side="top"
-          >
-            <p className="font-body text-sm leading-relaxed">{t(tooltipKey)}</p>
-          </TooltipContent>
-        </Tooltip>
-      </div>
-
-      <ul className="flex-1 flex flex-col gap-4 mb-8" style={{ transform: "translateZ(20px)" }}>
-        {featuresKeys.map((featKey, i) => (
-          <li key={i} className="flex items-center gap-3 font-body text-sm text-white/80">
-            <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-            {t(featKey)}
-          </li>
-        ))}
+            className="max
