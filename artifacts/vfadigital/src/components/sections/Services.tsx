@@ -13,7 +13,7 @@ const BASE_SERVICES = [
   {
     id: "static",
     titleKey: "services.static",
-    tooltip: "¿Por qué el rango? 60usd-$80k Arg- cubre tu vidriera digital rápida. Escala a 90usd -$120k Arg- si requieres múltiples secciones y animaciones personalizadas.",
+    tooltip: "¿Por qué el rango? 60usd -$80k Arg- cubre tu vidriera digital rápida. Escala a 90usd -$120k Arg- si requieres múltiples secciones y animaciones personalizadas.",
     features: ["Diseño Mobile-First", "Formulario de Contacto", "Integración WhatsApp", "Optimizada para velocidad"],
     color: NEON_COLORS[0],
     settingsKey: "static" as const,
@@ -108,7 +108,6 @@ export function Services() {
   );
 }
 
-// 
 function ServiceCard({
   titleKey, price, tooltip, features, featured, color, t,
 }: {
@@ -156,7 +155,7 @@ function ServiceCard({
         <span className="text-xl font-display font-bold text-primary">{price}</span>
         
         <div className="flex items-center gap-1">
-          {/* PRIMER ICONO: Explicación del rango de precio */}
+          {/* ICONO 1: Rango de Precios */}
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
               <button 
@@ -176,12 +175,12 @@ function ServiceCard({
             </TooltipContent>
           </Tooltip>
 
-          {/* SEGUNDO ICONO (⚠️): Mensaje de Transparencia VFA */}
+          {/* ICONO 2: Transparencia VFA (La advertencia ⚠️) */}
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
               <button 
                 onClick={(e) => e.preventDefault()} 
-                className="text-amber-400 hover:text-amber-300 transition-colors p-1 touch-manipulation animate-pulse"
+                className="text-amber-400 hover:text-amber-300 transition-colors p-1 touch-manipulation"
               >
                 <span className="text-xl">⚠️</span>
               </button>
@@ -217,4 +216,4 @@ function ServiceCard({
       </Button>
     </motion.div>
   );
-}
+      }
