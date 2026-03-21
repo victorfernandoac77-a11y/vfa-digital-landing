@@ -108,6 +108,8 @@ export function Services() {
   );
 }
 
+const TRANSPARENCY_TEXT = "🛡️ Transparencia VFA: Los valores corresponden únicamente al diseño y desarrollo. Los costos de suscripciones externas (Hosting, Dominio, Tokens de IA) son gestionados y abonados por el cliente para garantizar su total propiedad sobre el sistema.";
+
 function ServiceCard({
   titleKey, price, tooltip, features, featured, color, t,
 }: {
@@ -115,8 +117,8 @@ function ServiceCard({
   featured?: boolean; color: string; t: (k: string) => string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [isOpen, setIsOpen] = useState(false); // Control total del cartel ?
-  const [showTransparency, setShowTransparency] = useState(false); // Control del texto ⚠️
+  const [isOpen, setIsOpen] = useState(false);
+  const [showTransparency, setShowTransparency] = useState(false);
   const { rotateX, rotateY, handlePointerMove, handlePointerLeave } = useTilt(ref);
 
   const handleCTA = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -126,7 +128,17 @@ function ServiceCard({
     openChatWidget();
   };
 
-  const transparencyText = "🛡️ Transparencia VFA: Los valores corresponden únicamente al diseño y desarrollo. Los costos de suscripciones externas (Hosting, Dominio, Tokens de IA) son gestionados y abonados por el cliente para garantizar su total propiedad sobre el sistema.";
+  const handleOpenTooltip = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsOpen(!isOpen);
+    setShowTransparency(false);
+  };
+
+  const handleToggleTransparency = (e: React.PointerEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowTransparency((prev) => !prev);
+  };
 
   return (
     <motion.div
@@ -155,29 +167,30 @@ function ServiceCard({
 
       <div className="flex items-center gap-2 mb-6" style={{ transform: "translateZ(40px)" }}>
         <span className="text-xl font-display font-bold text-primary">{price}</span>
-        
-        {/* Usamos el Tooltip de forma controlada con 'open' */}
+
         <Tooltip open={isOpen} onOpenChange={setIsOpen}>
           <TooltipTrigger asChild>
-            <button 
-              onClick={(e) => {
-                e.preventDefault();
-                setIsOpen(!isOpen);
-                setShowTransparency(false);
-              }} 
+            <button
+              onClick={handleOpenTooltip}
               className="text-muted-foreground hover:text-white transition-colors p-2 -m-2 touch-manipulation cursor-pointer"
             >
               <HelpCircle className="w-6 h-6" />
             </button>
           </TooltipTrigger>
+
           <TooltipContent
-            onPointerDownOutside={() => setIsOpen(false)} // Cerrar si tocas fuera
+            onPointerDownOutside={(e) => {
+              const target = e.target as HTMLElement;
+              if (!target.closest("[data-transparency-btn]")) {
+                setIsOpen(false);
+                setShowTransparency(false);
+              }
+            }}
             className="max-w-[280px] bg-[#1A1A1A] border border-primary/30 text-white rounded-xl p-5 shadow-2xl z-[100]"
             side="top"
           >
             <div className="relative">
               <div className="flex flex-col gap-4">
-                {/* Texto del rango siempre visible al abrir el ? */}
                 <p className="font-body text-sm leading-relaxed text-white/90">
                   {tooltip}
                 </p>
@@ -191,21 +204,17 @@ function ServiceCard({
                       className="overflow-hidden border-t border-white/10 pt-3"
                     >
                       <p className="font-body text-[11px] leading-snug text-white/60 italic">
-                        {transparencyText}
+                        {TRANSPARENCY_TEXT}
                       </p>
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
 
-              {/* Icono ⚠️ abajo a la derecha que despliega el texto */}
-              <button 
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setShowTransparency(!showTransparency);
-                }}
-                className="absolute -bottom-2 -right-2 p-3 text-amber-400 hover:text-amber-300 transition-colors z-[110] cursor-pointer"
+              <button
+                data-transparency-btn=""
+                onPointerDown={handleToggleTransparency}
+                className="absolute -bottom-2 -right-2 p-3 text-amber-400 hover:text-amber-300 transition-colors z-[110] cursor-pointer touch-manipulation"
               >
                 <span className="text-xl">⚠️</span>
               </button>
@@ -233,4 +242,4 @@ function ServiceCard({
       </Button>
     </motion.div>
   );
-    }
+      }
