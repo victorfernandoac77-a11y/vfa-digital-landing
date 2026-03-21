@@ -158,11 +158,11 @@ function ServiceCard({
         <Tooltip delayDuration={0}>
           <TooltipTrigger asChild>
             <button 
-              onClick={(e) => {
+              onPointerDown={(e) => {
                 e.preventDefault();
                 setShowTransparency(false);
               }} 
-              className="text-muted-foreground hover:text-white transition-colors p-2 -m-2 touch-manipulation"
+              className="text-muted-foreground hover:text-white transition-colors p-2 -m-2 touch-manipulation cursor-pointer"
             >
               <HelpCircle className="w-5 h-5" />
             </button>
@@ -171,7 +171,7 @@ function ServiceCard({
             className="max-w-[280px] bg-[#1A1A1A] border border-primary/30 text-white rounded-xl p-5 shadow-2xl"
             side="top"
           >
-            <div className="relative pb-10"> {/* Espacio inferior para el icono */}
+            <div className="relative pb-10">
               <div className="flex flex-col gap-4">
                 <p className="font-body text-sm leading-relaxed text-white/90">
                   {tooltip}
@@ -193,17 +193,17 @@ function ServiceCard({
                 </AnimatePresence>
               </div>
 
-              {/* ICONO ⚠️ UBICADO ABAJO A LA DERECHA */}
-              <button 
-                onClick={(e) => {
+              {/* BOTÓN ⚠️ CORREGIDO PARA MÓVILES */}
+              <div 
+                onPointerDown={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setShowTransparency(!showTransparency);
                 }}
-                className="absolute bottom-0 right-0 p-3 -m-1 text-amber-400 hover:text-amber-300 transition-colors z-50 touch-manipulation"
+                className="absolute bottom-0 right-0 p-4 -m-2 cursor-pointer z-[100] touch-none"
               >
-                <span className="text-xl">⚠️</span>
-              </button>
+                <span className="text-xl select-none">⚠️</span>
+              </div>
             </div>
           </TooltipContent>
         </Tooltip>
@@ -228,4 +228,4 @@ function ServiceCard({
       </Button>
     </motion.div>
   );
-              }
+}
