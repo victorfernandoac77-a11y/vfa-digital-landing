@@ -9,11 +9,11 @@ import { Button } from "@/components/ui/button";
 
 const NEON_COLORS = ["#00FFFF", "#FF00FF", "#CCFF00", "#FF6600", "#AA00FF"];
 
+// Simplificado: Eliminada la propiedad 'tooltip' específica de cada servicio
 const BASE_SERVICES = [
   {
     id: "static",
     titleKey: "services.static",
-    tooltip: "¿Por qué el rango? 60usd -$80k Arg- cubre tu vidriera digital rápida. Escala a 90usd -$120k Arg- si requieres múltiples secciones y animaciones personalizadas.",
     features: ["Diseño Mobile-First", "Formulario de Contacto", "Integración WhatsApp", "Optimizada para velocidad"],
     color: NEON_COLORS[0],
     settingsKey: "static" as const,
@@ -21,7 +21,6 @@ const BASE_SERVICES = [
   {
     id: "dynamic",
     titleKey: "services.dynamic",
-    tooltip: "¿Por qué el rango? 90usd -$120k Arg- te da control de tus datos base. Escala a 130usd -$180k Arg- si necesitas gestionar catálogos o promociones en tiempo real.",
     features: ["Panel de Administración", "Catálogo autogestionable", "Base de datos", "Diseño interactivo"],
     featured: true,
     color: NEON_COLORS[2],
@@ -30,7 +29,6 @@ const BASE_SERVICES = [
   {
     id: "smart",
     titleKey: "services.smart",
-    tooltip: "¿Por qué el rango? 130usd -$180k Arg- incluye tu Asistente IA base y fondo 3D. Escala a 170usd -$250k Arg- al entrenar a tu IA como cerrador de ventas experto con 3D a medida.",
     features: ["Asistente IA (Gemini)", "Entrenamiento en ventas", "Entornos 3D Cyber-UX", "Automatización total"],
     color: NEON_COLORS[4],
     settingsKey: "smart" as const,
@@ -108,10 +106,11 @@ export function Services() {
   );
 }
 
+// Simplificado: Eliminada la prop 'tooltip'
 function ServiceCard({
-  titleKey, price, tooltip, features, featured, color, t,
+  titleKey, price, features, featured, color, t,
 }: {
-  titleKey: string; price: string; tooltip: string; features: string[];
+  titleKey: string; price: string; features: string[];
   featured?: boolean; color: string; t: (k: string) => string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -166,17 +165,10 @@ function ServiceCard({
             className="max-w-[280px] bg-[#1A1A1A] border border-primary/30 text-white rounded-xl p-5 shadow-2xl"
             side="top"
           >
-            <div className="flex flex-col gap-3 relative pb-6">
-              <p className="font-body text-sm leading-relaxed text-white/90">
-                {tooltip}
-              </p>
-              <p className="font-body text-[11px] leading-snug text-white/50 italic border-t border-white/10 pt-3">
-                {transparencyText}
-              </p>
-              <span className="absolute bottom-0 right-0 text-lg opacity-80" role="img" aria-label="warning">
-                ⚠️
-              </span>
-            </div>
+            {/* Simplificado: Solo el mensaje de transparencia, sin 'tooltipKey' ni la '⚠️' */}
+            <p className="font-body text-sm leading-relaxed text-white/90">
+              {transparencyText}
+            </p>
           </TooltipContent>
         </Tooltip>
       </div>
@@ -200,4 +192,4 @@ function ServiceCard({
       </Button>
     </motion.div>
   );
-}
+              }
