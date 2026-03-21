@@ -115,7 +115,8 @@ function ServiceCard({
   featured?: boolean; color: string; t: (k: string) => string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [showTransparency, setShowTransparency] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // Control total del cartel ?
+  const [showTransparency, setShowTransparency] = useState(false); // Control del texto ⚠️
   const { rotateX, rotateY, handlePointerMove, handlePointerLeave } = useTilt(ref);
 
   const handleCTA = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -155,39 +156,32 @@ function ServiceCard({
       <div className="flex items-center gap-2 mb-6" style={{ transform: "translateZ(40px)" }}>
         <span className="text-xl font-display font-bold text-primary">{price}</span>
         
-        <Tooltip delayDuration={0}>
+        {/* Usamos el Tooltip de forma controlada con 'open' */}
+        <Tooltip open={isOpen} onOpenChange={setIsOpen}>
           <TooltipTrigger asChild>
             <button 
-              onClick={() => setShowTransparency(false)} 
+              onClick={(e) => {
+                e.preventDefault();
+                setIsOpen(!isOpen);
+                setShowTransparency(false);
+              }} 
               className="text-muted-foreground hover:text-white transition-colors p-2 -m-2 touch-manipulation cursor-pointer"
             >
-              <HelpCircle className="w-5 h-5" />
+              <HelpCircle className="w-6 h-6" />
             </button>
           </TooltipTrigger>
           <TooltipContent
-            className="max-w-[280px] bg-[#1A1A1A] border border-primary/30 text-white rounded-xl p-5 shadow-2xl overflow-hidden"
+            onPointerDownOutside={() => setIsOpen(false)} // Cerrar si tocas fuera
+            className="max-w-[280px] bg-[#1A1A1A] border border-primary/30 text-white rounded-xl p-5 shadow-2xl z-[100]"
             side="top"
           >
             <div className="relative">
-              {/* EL ICONO ⚠️ QUE DISPARA EL TEXTO (ESQUINA INFERIOR DERECHA) */}
-              <div 
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setShowTransparency(!showTransparency);
-                }}
-                className="absolute -bottom-2 -right-2 p-3 text-amber-400 hover:text-amber-300 transition-colors cursor-pointer z-50 touch-auto"
-              >
-                <span className="text-xl">⚠️</span>
-              </div>
-
-              <div className="flex flex-col gap-4 pr-2">
-                {/* Texto explicativo del rango de precio */}
-                <p className="font-body text-sm leading-relaxed text-white/90 mb-2">
+              <div className="flex flex-col gap-4">
+                {/* Texto del rango siempre visible al abrir el ? */}
+                <p className="font-body text-sm leading-relaxed text-white/90">
                   {tooltip}
                 </p>
 
-                {/* Mensaje de transparencia */}
                 <AnimatePresence>
                   {showTransparency && (
                     <motion.div
@@ -203,6 +197,18 @@ function ServiceCard({
                   )}
                 </AnimatePresence>
               </div>
+
+              {/* Icono ⚠️ abajo a la derecha que despliega el texto */}
+              <button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowTransparency(!showTransparency);
+                }}
+                className="absolute -bottom-2 -right-2 p-3 text-amber-400 hover:text-amber-300 transition-colors z-[110] cursor-pointer"
+              >
+                <span className="text-xl">⚠️</span>
+              </button>
             </div>
           </TooltipContent>
         </Tooltip>
@@ -227,4 +233,4 @@ function ServiceCard({
       </Button>
     </motion.div>
   );
-                             }
+    }
