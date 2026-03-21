@@ -108,6 +108,7 @@ export function Services() {
   );
 }
 
+// 
 function ServiceCard({
   titleKey, price, tooltip, features, featured, color, t,
 }: {
@@ -151,31 +152,50 @@ function ServiceCard({
         {t(titleKey)}
       </h3>
 
-      <div className="flex items-center gap-2 mb-6" style={{ transform: "translateZ(40px)" }}>
+      <div className="flex items-center gap-3 mb-6" style={{ transform: "translateZ(40px)" }}>
         <span className="text-xl font-display font-bold text-primary">{price}</span>
-        <Tooltip delayDuration={0}>
-          <TooltipTrigger asChild>
-            <button 
-              onClick={(e) => e.preventDefault()} 
-              className="text-muted-foreground hover:text-white transition-colors p-2 -m-2 touch-manipulation"
+        
+        <div className="flex items-center gap-1">
+          {/* PRIMER ICONO: Explicación del rango de precio */}
+          <Tooltip delayDuration={0}>
+            <TooltipTrigger asChild>
+              <button 
+                onClick={(e) => e.preventDefault()} 
+                className="text-muted-foreground hover:text-white transition-colors p-1 touch-manipulation"
+              >
+                <HelpCircle className="w-5 h-5" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent
+              className="max-w-[240px] bg-[#1A1A1A] border border-primary/30 text-white rounded-xl p-4 shadow-2xl"
+              side="top"
             >
-              <HelpCircle className="w-6 h-6" />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent
-            className="max-w-[280px] bg-[#1A1A1A] border border-primary/30 text-white rounded-xl p-5 shadow-2xl"
-            side="top"
-          >
-            <div className="flex flex-col gap-3">
               <p className="font-body text-sm leading-relaxed text-white/90">
                 {tooltip}
               </p>
-              <p className="font-body text-[11px] leading-snug text-white/50 italic border-t border-white/10 pt-3">
+            </TooltipContent>
+          </Tooltip>
+
+          {/* SEGUNDO ICONO (⚠️): Mensaje de Transparencia VFA */}
+          <Tooltip delayDuration={0}>
+            <TooltipTrigger asChild>
+              <button 
+                onClick={(e) => e.preventDefault()} 
+                className="text-amber-400 hover:text-amber-300 transition-colors p-1 touch-manipulation animate-pulse"
+              >
+                <span className="text-xl">⚠️</span>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent
+              className="max-w-[260px] bg-[#1A1A1A] border border-amber-500/30 text-white rounded-xl p-4 shadow-2xl"
+              side="top"
+            >
+              <p className="font-body text-xs leading-relaxed text-white/80 italic">
                 {transparencyText}
               </p>
-            </div>
-          </TooltipContent>
-        </Tooltip>
+            </TooltipContent>
+          </Tooltip>
+        </div>
       </div>
 
       <ul className="flex-1 flex flex-col gap-4 mb-8" style={{ transform: "translateZ(20px)" }}>
@@ -197,4 +217,4 @@ function ServiceCard({
       </Button>
     </motion.div>
   );
-                  }
+}
