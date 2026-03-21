@@ -13,7 +13,7 @@ const BASE_SERVICES = [
   {
     id: "static",
     titleKey: "services.static",
-    tooltip: "¿Por qué el rango? 60usd -$80k Arg- cubre tu vidriera digital rápida. Escala a 90usd -$120k Arg- si requieres múltiples secciones y animaciones personalizadas.",
+    tooltip: "¿Por qué el rango? 60usd-$80k Arg- cubre tu vidriera digital rápida. Escala a 90usd -$120k Arg- si requieres múltiples secciones y animaciones personalizadas.",
     features: ["Diseño Mobile-First", "Formulario de Contacto", "Integración WhatsApp", "Optimizada para velocidad"],
     color: NEON_COLORS[0],
     settingsKey: "static" as const,
