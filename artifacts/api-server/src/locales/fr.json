@@ -23,5 +23,13 @@
   "authority.btn": "Voir les Justificatifs Google UX",
   "chat.badge": "Nous répondons en moins de 1 heure",
   "chat.no_results": "Vous n'avez pas trouvé ce que vous cherchez? Consultez notre IA!",
-  "footer.motto": "La sécurité de ce dont vous avez besoin à portée de clic"
+  "footer.motto": "La sécurité de ce dont vous avez besoin à portée de clic"  "chat.bubble": "Chat with Fer now!",
+  "chat.assistant_name": "VFA Assistant",
+  "chat.online_status": "Online — Fer responds shortly",
+  "chat.start_message": "To start, tell us your name:",
+  "chat.name_placeholder": "Your name",
+  "chat.phone_placeholder": "Your phone (optional)",
+  "chat.start_button": "Start chat",
+  "chat.typing": "Typing...",
+  "chat.input_placeholder": "Write your question..."
 }
