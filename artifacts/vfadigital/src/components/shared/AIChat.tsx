@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageSquare, X, Bot, ExternalLink, Send } from "lucide-react";
+import { useTranslations } from "@/hooks/useTranslations";
 
 const WA_NUMBER = "5491166813990";
 const FB_URL = "https://m.me/982746351596780";
@@ -11,6 +12,7 @@ interface Message {
 }
 
 export function AIChat() {
+  const t = useTranslations();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -122,7 +124,7 @@ export function AIChat() {
               exit={{ opacity: 0, scale: 0.85 }}
               className="bg-[#111] text-xs font-body px-3 py-2 rounded-full border border-primary/40 text-white shadow-xl max-w-[150px] text-center leading-snug"
             >
-              ¡Chateá con Fer ahora!
+              {t("chat.bubble")}
             </motion.div>
           )}
         </AnimatePresence>
@@ -157,10 +159,10 @@ export function AIChat() {
                 <Bot className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <h4 className="font-display font-bold text-white text-base leading-none">VFA Assistant</h4>
+                <h4 className="font-display font-bold text-white text-base leading-none">{t("chat.assistant_name")}</h4>
                 <p className="text-xs text-primary font-body flex items-center gap-1 mt-0.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                  Online — Fer responde en &lt;breve
+                  {t("chat.online_status")}
                 </p>
               </div>
               <button onClick={handleClose} className="ml-auto text-muted-foreground hover:text-white transition-colors">
@@ -174,11 +176,11 @@ export function AIChat() {
               {step === "form" ? (
                 <>
                   <p className="text-sm text-white/70 font-body">
-                    Para empezar, decinos tu nombre:
+                    {t("chat.start_message")}
                   </p>
                   <input
                     type="text"
-                    placeholder="Tu nombre"
+                    placeholder={t("chat.name_placeholder")}
                     value={name}
                     onChange={e => setName(e.target.value)}
                     className="bg-black/60 border border-white/10 rounded-xl px-4 py-2 text-sm text-white font-body placeholder:text-white/30 focus:border-primary/50 outline-none"
@@ -186,7 +188,7 @@ export function AIChat() {
                   />
                   <input
                     type="tel"
-                    placeholder="Tu teléfono (opcional)"
+                    placeholder={t("chat.phone_placeholder")}
                     value={phone}
                     onChange={e => setPhone(e.target.value)}
                     className="bg-black/60 border border-white/10 rounded-xl px-4 py-2 text-sm text-white font-body placeholder:text-white/30 focus:border-primary/50 outline-none"
@@ -197,7 +199,7 @@ export function AIChat() {
                     disabled={!name.trim()}
                     className="w-full py-3 rounded-[50px] font-display font-bold text-sm bg-primary text-black disabled:opacity-40"
                   >
-                    Iniciar chat
+                    {t("chat.start_button")}
                   </button>
                 </>
               ) : (
@@ -217,7 +219,7 @@ export function AIChat() {
                   {loading && (
                     <div className="flex justify-start">
                       <div className="bg-white/10 px-4 py-2 rounded-2xl text-sm text-white/50 font-body animate-pulse">
-                        Escribiendo...
+                        {t("chat.typing")}
                       </div>
                     </div>
                   )}
@@ -250,7 +252,7 @@ export function AIChat() {
               <div className="border-t border-white/5 p-3 flex gap-2 shrink-0">
                 <input
                   type="text"
-                  placeholder="Escribí tu consulta..."
+                  placeholder={t("chat.input_placeholder")}
                   value={input}
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={e => e.key === "Enter" && handleSend()}
@@ -281,4 +283,4 @@ export function AIChat() {
       `}</style>
     </>
   );
-       }
+    }
