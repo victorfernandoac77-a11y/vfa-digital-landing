@@ -23,5 +23,13 @@
   "authority.btn": "Ver Credencial Google UX",
   "chat.badge": "Respondemos em menos de 1 hora",
   "chat.no_results": "Não encontrou o que procura? Consulte nossa IA!",
-  "footer.motto": "A segurança do que você precisa ao alcance de um clique"
+  "footer.motto": "A segurança do que você precisa ao alcance de um clique", "chat.bubble": "Chat with Fer now!",
+  "chat.assistant_name": "VFA Assistant",
+  "chat.online_status": "Online — Fer responds shortly",
+  "chat.start_message": "To start, tell us your name:",
+  "chat.name_placeholder": "Your name",
+  "chat.phone_placeholder": "Your phone (optional)",
+  "chat.start_button": "Start chat",
+  "chat.typing": "Typing...",
+  "chat.input_placeholder": "Write your question..."
 }
