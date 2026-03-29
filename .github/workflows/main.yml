@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping site
-        run: curl -f https://vfadigital.onrender.com
+        run: curl -f https://vfa-digital-landing-1.onrender.com/
