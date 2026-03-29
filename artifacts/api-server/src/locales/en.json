@@ -1,12 +1,12 @@
 {
-  "boot.init": "Starting VFA systems...",
+  "boot.init": "Initializing VFA systems...",
   "nav.services": "Services",
   "nav.portfolio": "Portfolio",
   "nav.authority": "Authority",
   "nav.contact": "Contact",
   "hero.title1": "Manage your business better!",
   "hero.title2": "Your time is yours",
-  "hero.title3": "Integrate AI automation as an assistant on your website",
+  "hero.title3": "Integrate AI automation to act as an assistant on your website",
   "hero.cta1": "Manage your business better",
   "hero.cta2": "Your time is yours",
   "hero.cta3": "Integrate AI assistant",
@@ -17,11 +17,11 @@
   "services.static": "Static",
   "services.dynamic": "Dynamic",
   "services.smart": "Smart AI 3D",
-  "transparency.banner": "🛡️ VFA Transparency: Prices cover design and development. Hosting & Domain costs are the client's responsibility. We optimize for high-quality free platforms, keeping you operational with no mandatory fixed costs.",
+  "transparency.banner": "🛡️ VFA Transparency: Values correspond to design and development. Hosting and Domain costs are the client's responsibility. We optimize for high-quality free platforms, keeping you operational without mandatory fixed costs.",
   "portfolio.title": "Declassified Files",
   "authority.title": "Security & UX Protocols",
   "authority.btn": "View Google UX Credential",
-  "chat.badge": "We respond in less than 1 hour",
-  "chat.no_results": "Didn't find what you need? Chat with our AI!",
-  "footer.motto": "The security of what you need at the click of a button"
+  "chat.badge": "We respond within 1 hour",
+  "chat.no_results": "Didn't find what you're looking for? Consult with our AI!",
+  "footer.motto": "The security of what you need within a click"
 }
